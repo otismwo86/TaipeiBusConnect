@@ -55,16 +55,31 @@ try:
     """)
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS bus_stop (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    route_id INT,
+    route_uid VARCHAR(255),
+    stop_uid VARCHAR(255),
+    stop_name VARCHAR(255),
+    stop_sequence INT,
+    position_lon FLOAT,
+    position_lat FLOAT,
+    direction INT,
+    FOREIGN KEY (route_id) REFERENCES bus_route(id)
+    );
+    """)
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS stop_location (
         id INT AUTO_INCREMENT PRIMARY KEY,
         route_id INT,
-        route_uid VARCHAR(255),
-        start VARCHAR(255),
-        end VARCHAR(255),
-        direction INT,
-        stops TEXT,
+        stop_name VARCHAR(255) NOT NULL,
+        position_lon FLOAT NOT NULL,
+        position_lat FLOAT NOT NULL,
+        direction INT NOT NULL,
         FOREIGN KEY (route_id) REFERENCES bus_route(id)
     );
     """)
+
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS bus_buffer (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -83,6 +98,7 @@ try:
     cursor.execute("TRUNCATE TABLE bus_stop")
     cursor.execute("TRUNCATE TABLE bus_route")
     cursor.execute("TRUNCATE TABLE bus_buffer")
+    cursor.execute("TRUNCATE TABLE stop_location")
     # 恢復外鍵檢查
     cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
 
@@ -166,7 +182,24 @@ try:
         VALUES (%s, %s, %s, %s, %s, %s)
     """, bus_stop_data)
     connection.commit()
+    # 批量插入 stop_location 資料
+    batch_data = []
+    batch_data = []
+    for stop in stops_data:
+        route_name = stop['RouteName']['Zh_tw']
+        route_id = route_id_map.get(route_name)
+        direction = stop['Direction']
+        for stop in stop['Stops']:
+            stop_name = stop['StopName']['Zh_tw']  # 獲取站點名稱
+            position_lon = stop['StopPosition']['PositionLon']  # 獲取經度
+            position_lat = stop['StopPosition']['PositionLat']  # 獲取緯度
+            batch_data.append((route_id, stop_name, position_lon, position_lat, direction))
 
+    cursor.executemany("""
+        INSERT INTO stop_location (route_id, stop_name, position_lon, position_lat, direction) 
+        VALUES (%s, %s, %s, %s, %s)
+    """, batch_data)
+    connection.commit()
     # 批量插入 bus_buffer 資料
     bus_buffer_data = []
 

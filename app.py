@@ -1,4 +1,3 @@
-import requests
 import json
 import fastapi
 from fastapi import FastAPI, Request, HTTPException
@@ -7,10 +6,14 @@ from fastapi.templating import Jinja2Templates
 import mysql.connector
 import os
 from dotenv import load_dotenv
+from pyfcm import FCMNotification
 
 app = FastAPI()
 templates = Jinja2Templates(directory="html")
 load_dotenv()
+
+
+
 def connect_to_db():
     return mysql.connector.connect(
         host=os.getenv("DB_HOST"),
@@ -32,7 +35,11 @@ def get_current_table():
 async def home(request: Request):
     return templates.TemplateResponse("selectbus.html", {"request": request})
 
-@app.get("/search/{route_name}")
+@app.get("/bus", response_class=HTMLResponse)
+async def bus_details(request: Request, route_name: str):
+    return templates.TemplateResponse("busdetails.html", {"request": request, "route_name": route_name})
+
+@app.get("/api/search/{route_name}")
 async def search_bus(route_name: str):
     db_connection = connect_to_db()
     cursor = db_connection.cursor(dictionary=True)
@@ -46,7 +53,6 @@ async def search_bus(route_name: str):
     results = cursor.fetchall()
     if results:
         for result in results:
-            # 轉換為 Python 列表
             result['stops'] = json.loads(result['stops'])
         cursor.close()
         db_connection.close()
@@ -55,14 +61,14 @@ async def search_bus(route_name: str):
         cursor.close()
         db_connection.close()
         raise HTTPException(status_code=404, detail="Route not found")
-    
-@app.get("/search_estimate")
+
+@app.get("/api/search_estimate")
 async def search_estimate(route_name: str):
     db_connection = None
     try:
         db_connection = connect_to_db()
         cursor = db_connection.cursor(dictionary=True)
-        current_table = get_current_table()  # 獲取當前表名
+        current_table = get_current_table()
         query = f"""
         SELECT route_name, stop_name, direction, estimated_time, stop_status
         FROM {current_table}
@@ -81,6 +87,23 @@ async def search_estimate(route_name: str):
         if db_connection:
             cursor.close()
             db_connection.close()
+
+@app.get("/api/searchlocation")
+async def search_bus(route_name: str):
+    db_connection = connect_to_db()
+    cursor = db_connection.cursor(dictionary=True)
+    query = """
+    SELECT st.stop_name, st.position_lon, st.position_lat, st.direction
+    FROM stop_location st 
+    JOIN bus_route br ON br.id = st.route_id 
+    WHERE br.route_name = %s
+    """
+    cursor.execute(query, (route_name,))
+    results = cursor.fetchall()
+    cursor.close()
+    db_connection.close()
+    return JSONResponse(content=results)
+
 
 @app.get("/health")
 async def health_check():
