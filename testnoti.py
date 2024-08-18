@@ -5,7 +5,7 @@ import firebase_admin
 from firebase_admin import credentials, messaging
 import os
 from dotenv import load_dotenv
-
+import pytz
 
 # 初始化 Firebase Admin SDK
 cred = credentials.Certificate("busconncet-firebase-adminsdk-3q883-4a49b71c98.json")
@@ -27,8 +27,8 @@ def send_batch_notifications(results):
         messages = [
             messaging.Message(
                 notification=messaging.Notification(
-                    title=f"Route {result['route_name']} Notification",
-                    body=f"Bus at stop {result['neareststop']} is arriving soon.",
+                    title=f"路線{result['route_name']}通知",
+                    body=f"點擊以查看{result['neareststop']}最新資訊",
                 ),
                 token=result['token'],
                     data={
@@ -36,8 +36,6 @@ def send_batch_notifications(results):
                 }
             ) for result in batch
         ]
-        for msg in messages:
-            print(msg.data['click_action'])
         try:
             response = messaging.send_all(messages)
             print(f"Batch notification sent successfully: {response}")
@@ -49,7 +47,8 @@ def check_and_send_notifications():
     cursor = db_connection.cursor(dictionary=True)
 
     # 取得當前時間，並轉換為 HH:MM:00 格式
-    now = datetime.now().strftime("%H:%M:00")
+    taiwan_tz = pytz.timezone('Asia/Taipei')
+    now = datetime.now(taiwan_tz).strftime("%H:%M:00")
 
     query = """
     SELECT * FROM user_notifications
