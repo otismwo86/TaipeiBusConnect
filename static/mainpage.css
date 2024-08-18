@@ -1,0 +1,467 @@
+body {
+    font-family: 'Noto Sans TC', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.navbar {
+    background-color: white;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    height: 54px;
+    display: flex;
+    align-items: center;
+}
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.logo {
+    font-size: 30px;
+    text-decoration: none;
+    color: #448899;
+    font-weight: bold;
+    height: 34px;
+    padding-bottom: 10px;
+}
+#busForm {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+#message {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 2px solid #448899;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    width: 200px;
+    box-sizing: border-box;
+}
+
+#busForm button {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 2px solid #448899;
+    background-color: #448899;
+    color: white;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+#busForm button:hover {
+    background-color: #357a80;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+#busForm input::placeholder {
+    color: #aaa;
+    font-style: italic;
+}
+#memberfun{
+    display:none;
+    margin-top: 13px;
+}
+.nav-links {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    border-radius: 5px;
+    align-items: center;
+    height: 32px;
+}
+
+.nav-links li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    height: 34px;
+
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: gray;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 5px;
+}
+
+.nav-links input, .nav-links button {
+    height: 34px;
+    box-sizing: border-box;
+}
+
+.loginpopup{
+    position: fixed;
+    display: none;
+    z-index: 1001;
+    left: 50%;
+    top: 25%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 340px;
+    height: 275px;
+    border-radius: 5px;
+}
+.loginheaderline{
+    width:100%;
+    height:10px;
+    background: linear-gradient(to right,  #66AABB 0%, #337788 100%);
+    border-radius: 5px 5px 0 0;
+}
+.loginpopup-content{
+    position: relative;
+}
+.loginclose-btn {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    cursor: pointer;
+}
+.loginclose-btn img {
+    width:16px;
+    height:16px;
+}
+.loginheader{
+    display: flex;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 24px;
+    color: #666666;
+    margin-top: 8px;
+}
+.loginemail{
+    display:flex;
+    justify-content: center;
+    width:310px;
+    height:47px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: solid 1px;
+    border-color: #CCCCCC;
+    margin: 10px auto 0 auto;
+}
+.loginemail::placeholder{
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color:#666666;
+}
+
+.loginpassword{
+    display:flex;
+    justify-content: center;
+    width:310px;
+    height:47px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: solid 1px;
+    border-color: #CCCCCC;
+    margin: 8px auto 0 auto;
+}
+
+.loginpassword::placeholder{
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color:#666666;
+}
+.loginMessageContainer{
+    display: flex;
+    justify-content: center;
+}
+.button-container {
+    text-align: center;
+}
+.loginbutton{
+    width:310px;
+    height:47px;
+    color: white;
+    background-color: #448899;
+    border: none;
+    border-radius: 5px;
+    margin: 8px auto 0 auto;
+    font-size: 19px;
+}
+.loginbutton:hover{
+    cursor: pointer;
+    background-color: #336677;
+}
+.logintoregister:hover{
+    cursor:pointer;
+}
+.registerpopup{
+    position: fixed;
+    display: none;
+    z-index: 1001;
+    left: 50%;
+    top: 25%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 340px;
+    height: 332px;
+    border-radius: 5px;
+}
+.registerheader{
+    display: flex;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 24px;
+    color: #666666;
+    margin-top: 8px;
+}
+.registername{
+    display:flex;
+    justify-content: center;
+    width:310px;
+    height:47px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: solid 1px;
+    border-color: #CCCCCC;
+    margin: 10px auto 0 auto;
+}
+.registername::placeholder{
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color:#666666;
+}
+
+.registeremail{
+    display:flex;
+    justify-content: center;
+    width:310px;
+    height:47px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: solid 1px;
+    border-color: #CCCCCC;
+    margin: 8px auto 0 auto;
+}
+
+.registeremail::placeholder{
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color:#666666;
+}
+.registerpassword{
+    display:flex;
+    justify-content: center;
+    width:310px;
+    height:47px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: solid 1px;
+    border-color: #CCCCCC;
+    margin: 8px auto 0 auto;
+}
+
+.registerpassword::placeholder{
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color:#666666;
+}
+.registerMessageContainer{
+    display: flex;
+    justify-content: center;
+}
+.registerheaderline{
+    width:100%;
+    height:10px;
+    background: linear-gradient(to right,  #66AABB 0%, #337788 100%);
+    border-radius: 5px 5px 0 0;
+    
+}
+.loginfooter{
+    display: flex;
+    color:#666666;
+    font-size:16px;
+    font-weight: 400;
+    justify-content: center;
+    margin-top: 8px;
+}
+.registerpopup-content{
+    position: relative;
+}
+.registerclose-btn {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    cursor: pointer;
+}
+.registerclose-btn img {
+    width:16px;
+    height:16px;
+}
+.registerfooter{
+    display: flex;
+    color:#666666;
+    font-size:16px;
+    font-weight: 400;
+    justify-content: center;
+    margin-top: 5px;
+}
+.registertologin:hover{
+    cursor:pointer;
+}
+.logoutpopup{
+    position: fixed;
+    display: none;
+    z-index: 1001;
+    left: 50%;
+    top: 25%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 340px;
+    height: 130px;
+    border-radius: 5px;
+}
+.logoutheaderline{
+    width:100%;
+    height:10px;
+    background: linear-gradient(to right,  #66AABB 0%, #337788 100%);
+    border-radius: 5px 5px 0 0;
+}
+.logoutpopup-content{
+    position: relative;
+}
+.logoutclose-btn {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    cursor: pointer;
+}
+.logoutclose-btn img {
+    width:16px;
+    height:16px;
+}
+.logoutheader{
+    display: flex;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 24px;
+    color: #666666;
+    margin-top: 8px;
+}
+.logoutbutton-container {
+    text-align: center;
+}
+.logoutbutton{
+    width:310px;
+    height:47px;
+    color: white;
+    background-color: #448899;
+    border: none;
+    border-radius: 5px;
+    margin: 8px auto 0 auto;
+    font-size: 19px;
+}
+.logoutbutton:hover{
+    cursor: pointer;
+    background-color: #336677;
+}
+.overlay {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+#formargin{
+    display:flex;
+    margin: 53px auto 0;
+}
+#favorite-title{
+    display: none;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 53px auto 0;
+    width:1200px;
+}
+#all-route{
+    margin: 0px auto;
+    width:1200px;
+}
+#favorite-container{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0px auto;
+    width:1200px;
+}
+.favorite-item {
+    margin: 10px 5px 0px;
+}
+
+.favorite-link {
+    display: flex;
+    justify-content: center; /* 水平置中 */
+    align-items: center;     /* 垂直置中 */
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    text-decoration: none;
+    color: #333;
+    border-radius: 4px;
+    width: 80px;  /* 設定按鈕寬度 */
+    height: 40px;  /* 設定按鈕高度 */
+    text-align: center;
+}
+
+.favorite-link:hover {
+    background-color: #e0e0e0;
+    border-color: #bbb;
+}
+.route-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0px auto;
+    width:1200px;
+}
+
+.route-item {
+    width: calc(100% / 12 - 10px); /* 每個項目佔 1/12 的寬度並留一點間距 */
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    box-sizing: border-box;
+    cursor: pointer; /* 鼠標變為點擊狀態 */
+    background-color: #f9f9f9;
+    transition: background-color 0.3s;
+}
+
+.route-item:hover {
+    background-color: #e0e0e0; /* 滑鼠懸停時變色 */
+}
+
+.route-item a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+    width: 100%;
+}

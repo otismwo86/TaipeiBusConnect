@@ -1,0 +1,363 @@
+body {
+    font-family: 'Noto Sans TC', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.navbar {
+    background-color: white;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    height: 54px;
+    display: flex;
+    align-items: center;
+}
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.logo {
+    font-size: 30px;
+    text-decoration: none;
+    color: #448899;
+    font-weight: bold;
+    height: 34px;
+    padding-bottom: 10px;
+}
+#memberfun{
+    display:none;
+    margin-top: 13px;
+}
+.nav-links {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    border-radius: 5px;
+    align-items: center;
+    height: 32px;
+}
+
+.nav-links li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    height: 34px;
+
+}
+.loginpopup{
+    position: fixed;
+    display: none;
+    z-index: 1001;
+    left: 50%;
+    top: 25%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 340px;
+    height: 275px;
+    border-radius: 5px;
+}
+.loginheaderline{
+    width:100%;
+    height:10px;
+    background: linear-gradient(to right,  #66AABB 0%, #337788 100%);
+    border-radius: 5px 5px 0 0;
+}
+.loginpopup-content{
+    position: relative;
+}
+.loginclose-btn {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    cursor: pointer;
+}
+.loginclose-btn img {
+    width:16px;
+    height:16px;
+}
+.loginheader{
+    display: flex;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 24px;
+    color: #666666;
+    margin-top: 8px;
+}
+.loginemail{
+    display:flex;
+    justify-content: center;
+    width:310px;
+    height:47px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: solid 1px;
+    border-color: #CCCCCC;
+    margin: 10px auto 0 auto;
+}
+.loginemail::placeholder{
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color:#666666;
+}
+
+.loginpassword{
+    display:flex;
+    justify-content: center;
+    width:310px;
+    height:47px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: solid 1px;
+    border-color: #CCCCCC;
+    margin: 8px auto 0 auto;
+}
+
+.loginpassword::placeholder{
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color:#666666;
+}
+.loginMessageContainer{
+    display: flex;
+    justify-content: center;
+}
+.button-container {
+    text-align: center;
+}
+.loginbutton{
+    width:310px;
+    height:47px;
+    color: white;
+    background-color: #448899;
+    border: none;
+    border-radius: 5px;
+    margin: 8px auto 0 auto;
+    font-size: 19px;
+}
+.loginbutton:hover{
+    cursor: pointer;
+    background-color: #336677;
+}
+.logintoregister:hover{
+    cursor:pointer;
+}
+.registerpopup{
+    position: fixed;
+    display: none;
+    z-index: 1001;
+    left: 50%;
+    top: 25%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 340px;
+    height: 332px;
+    border-radius: 5px;
+}
+.registerheader{
+    display: flex;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 24px;
+    color: #666666;
+    margin-top: 8px;
+}
+.registername{
+    display:flex;
+    justify-content: center;
+    width:310px;
+    height:47px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: solid 1px;
+    border-color: #CCCCCC;
+    margin: 10px auto 0 auto;
+}
+.registername::placeholder{
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color:#666666;
+}
+
+.registeremail{
+    display:flex;
+    justify-content: center;
+    width:310px;
+    height:47px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: solid 1px;
+    border-color: #CCCCCC;
+    margin: 8px auto 0 auto;
+}
+
+.registeremail::placeholder{
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color:#666666;
+}
+.registerpassword{
+    display:flex;
+    justify-content: center;
+    width:310px;
+    height:47px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: solid 1px;
+    border-color: #CCCCCC;
+    margin: 8px auto 0 auto;
+}
+
+.registerpassword::placeholder{
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color:#666666;
+}
+.registerMessageContainer{
+    display: flex;
+    justify-content: center;
+}
+.registerheaderline{
+    width:100%;
+    height:10px;
+    background: linear-gradient(to right,  #66AABB 0%, #337788 100%);
+    border-radius: 5px 5px 0 0;
+    
+}
+.loginfooter{
+    display: flex;
+    color:#666666;
+    font-size:16px;
+    font-weight: 400;
+    justify-content: center;
+    margin-top: 8px;
+}
+.registerpopup-content{
+    position: relative;
+}
+.registerclose-btn {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    cursor: pointer;
+}
+.registerclose-btn img {
+    width:16px;
+    height:16px;
+}
+.registerfooter{
+    display: flex;
+    color:#666666;
+    font-size:16px;
+    font-weight: 400;
+    justify-content: center;
+    margin-top: 5px;
+}
+.registertologin:hover{
+    cursor:pointer;
+}
+.logoutpopup{
+    position: fixed;
+    display: none;
+    z-index: 1001;
+    left: 50%;
+    top: 25%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 340px;
+    height: 130px;
+    border-radius: 5px;
+}
+.logoutheaderline{
+    width:100%;
+    height:10px;
+    background: linear-gradient(to right,  #66AABB 0%, #337788 100%);
+    border-radius: 5px 5px 0 0;
+}
+.logoutpopup-content{
+    position: relative;
+}
+.logoutclose-btn {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    cursor: pointer;
+}
+.logoutclose-btn img {
+    width:16px;
+    height:16px;
+}
+.logoutheader{
+    display: flex;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 24px;
+    color: #666666;
+    margin-top: 8px;
+}
+.logoutbutton-container {
+    text-align: center;
+}
+.logoutbutton{
+    width:310px;
+    height:47px;
+    color: white;
+    background-color: #448899;
+    border: none;
+    border-radius: 5px;
+    margin: 8px auto 0 auto;
+    font-size: 19px;
+}
+.logoutbutton:hover{
+    cursor: pointer;
+    background-color: #336677;
+}
+.overlay {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+.nav-links a {
+    text-decoration: none;
+    color: gray;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 5px;
+}
+.route-details {
+    display: none;
+}
+#my_farvorite {
+    display: none;
+}
+#subscribe {
+    display: none;
+}
+#notificationTime{
+    display:none;
+}
+#info-container{
+    margin: 50px auto;
+    width:1200px;
+}

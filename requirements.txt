@@ -3,4 +3,9 @@ uvicorn
 mysql-connector-python
 python-dotenv
 jinja2
-redis
+firebase_admin
+pydantic
+bcrypt
+PyJWT
+python-multipart
+cryptography

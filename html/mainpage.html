@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="utf-8"/>
+    <title>台北BusConnect - 搜尋</title>
+    <link rel="stylesheet" href="/static/mainpage.css">
+    <script type="module" src="/static/notifications.js" defer></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">台北Busconnect</a>
+            <ul class="nav-links">
+                <form id="busForm" action="/bus/" method="get">
+                    <span>
+                        <input type="text" name="route_name" id="message" placeholder="輸入公車路線">
+                        <button type="submit">搜尋</button>
+                    </span>
+                </form>
+                <li id="memberfun"><a href="/member" id="memberfunc">會員功能</a></li>
+                <li id="auth-link"><a href="#" id="login">登入/註冊</a></li>
+            </ul>
+        </div>
+        <div id="overlay" class="overlay"></div>
+        <div class="loginpopup" id="loginpopup">
+            <div class="loginheaderline"></div>
+            <div class="loginpopup-content">
+                <span id="loginclose-btn" class="loginclose-btn"><img src="/static/dialog.png"></span>
+                <div class="loginheader">登入會員帳號</div>
+                <form id="loginForm">
+                    <input type="email" class="loginemail" id="loginemail" placeholder="輸入電子信箱" required>
+                    <input type="password" class="loginpassword" id="loginpassword" placeholder="輸入密碼" required>
+                    <div class="loginMessageContainer" id="loginMessageContainer"></div>
+                    <div class="button-container">
+                        <button type="submit" class="loginbutton">登入帳戶</button>
+                    </div>
+                </form>
+                <div class="loginfooter">還沒有帳戶?<span class="logintoregister" id="logintoregister">點此註冊</span></div>
+            </div>
+        </div>
+        <div class="registerpopup" id="registerpopup">
+            <div class="registerheaderline"></div>
+            <div class="registerpopup-content">
+                <span id="registerclose-btn" class="registerclose-btn"><img src="/static/dialog.png"></span>
+                <div class="registerheader">註冊會員帳號</div>
+                <form id="registerform">
+                    <input type="text" id="registername" class="registername" placeholder="輸入姓名" required>
+                    <input type="email" id="registeremail" class="registeremail" placeholder="輸入電子信箱" required>
+                    <input type="password" id="registerpassword" class="registerpassword" placeholder="輸入密碼" required>
+                    <div class="registerMessageContainer" id="registerMessageContainer"></div>
+                    <div class="button-container">
+                        <button type="submit" class="loginbutton">註冊新帳戶</button>
+                    </div>
+                </form>
+                <div class="registerfooter">已經有帳戶了?<span class="registertologin" id="registertologin">點此登入</span></div>
+            </div>
+        </div>
+        <div class="logoutpopup" id="logoutpopup">
+            <div class="logoutheaderline"></div>
+            <div class="logoutpopup-content">
+                <span id="logoutclose-btn" class="logoutclose-btn"><img src="/static/dialog.png"></span>
+                <div class="logoutheader">要登出嗎?</div>
+                <div class="logoutbutton-container">
+                    <button id="logoutbutton" type="button" class="logoutbutton">確定</button>
+                </div>  
+            </div>
+        </div>
+    </nav>
+    <div id="formargin"></div>
+    <div id="favorite-title">我的最愛</div>
+    <div id="favorite-container"></div>
+        <!-- 路線名稱將會動態加入這裡 -->
+    <div id="all-route">所有路線</div>
+    <div class="route-container" id="routeContainer">
+        <!-- 路線名稱將會動態加入這裡 -->
+    </div>
+    <script type="module">
+        import {getCurrentToken} from '/static/notifications.js';
+            document.addEventListener('DOMContentLoaded', () => {
+                            getCurrentUser(); // 檢查當前用戶資訊
+                        });
+                // 檢查當前用戶資訊函數
+                async function getCurrentUser() {
+                    const token = localStorage.getItem('access_token');
+                    const authLink = document.getElementById('auth-link');
+                    if (token) {
+                        try {
+                            let response = await fetch('/auth/verify-token', {
+                                method: 'GET',
+                                headers: {
+                                    'Authorization': `Bearer ${token}`  // 添加 Bearer token
+                                }
+                            });
+
+                            if (response.ok) {
+                                const data = await response.json();
+                                // 已登入，顯示登出選項
+                                authLink.innerHTML = '<a href="#" id="logout">登出系統</a>';
+                                document.getElementById('logout').addEventListener('click', function() {
+                                    document.getElementById('logoutpopup').style.display = 'block';
+                                    document.getElementById('overlay').style.display = 'block';
+                                });
+                                document.getElementById('logoutbutton').addEventListener('click', function() {
+                                    localStorage.removeItem('access_token');  
+                                    window.location.reload();  
+                                });
+                                document.getElementById('logoutclose-btn').addEventListener('click', function() {
+                                    document.getElementById('logoutpopup').style.display = 'none';
+                                    document.getElementById('overlay').style.display = 'none';
+                                });
+                                document.getElementById('memberfun').style.display = 'block';
+                                document.getElementById('favorite-title').style.display = 'flex';
+                                document.getElementById('formargin').style.display = 'none';
+                                fetchFavorites(data.user_id);
+
+                                setTimeout(async () => {
+                                    const newToken = await getCurrentToken();
+                                    const clientInfo = getBrowserInfo();
+                                    await fetch('/api/update-token', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({
+                                            member_id: data.user_id,
+                                            token: newToken,
+                                            client_info: clientInfo
+                                        })
+                                    });
+                                }, 100); 
+                                            } else {
+                                // Token無效，顯示登入/註冊選項
+                                showLoginRegisterOption(authLink);
+                            }
+                        } catch (error) {
+                            console.error('Error:', error);
+                            showLoginRegisterOption(authLink);
+                        }
+                    } else {
+                        // 沒有token，顯示登入/註冊選項
+                        showLoginRegisterOption(authLink);
+                    }
+                }
+
+                function showLoginRegisterOption(authLink) {
+                    authLink.innerHTML = '<a href="#" id="login">登入/註冊</a>';
+                    document.getElementById('login').addEventListener('click', function() {
+                        document.getElementById('loginpopup').style.display = 'block';
+                        document.getElementById('overlay').style.display = 'block';
+                    });                   
+                }
+
+                // overlay
+                document.getElementById('overlay').addEventListener('click', function() {
+                    document.getElementById('loginpopup').style.display = 'none';
+                    document.getElementById('overlay').style.display = 'none';
+                    document.getElementById('registerpopup').style.display = 'none';
+                    document.getElementById('logoutpopup').style.display = 'none';
+                });
+
+                // 登入表單的關閉按鈕
+                document.getElementById('loginclose-btn').addEventListener('click', function() {
+                    document.getElementById('loginpopup').style.display = 'none';
+                    document.getElementById('overlay').style.display = 'none';
+                });
+
+                // 註冊表單的切換按鈕
+                document.getElementById('logintoregister').addEventListener('click', function() {
+                    document.getElementById('loginpopup').style.display = 'none';
+                    document.getElementById('registerpopup').style.display = 'block';
+                });
+
+                // 註冊表單的返回按鈕
+                document.getElementById('registertologin').addEventListener('click', function() {
+                    document.getElementById('loginpopup').style.display = 'block';
+                    document.getElementById('registerpopup').style.display = 'none';
+                });
+
+                // 註冊表單的關閉按鈕
+                document.getElementById('registerclose-btn').addEventListener('click', function() {
+                    document.getElementById('registerpopup').style.display = 'none';
+                    document.getElementById('overlay').style.display = 'none';
+                });
+
+            //登入
+            document.getElementById('loginForm').addEventListener("submit", async (loginevent) => {
+                loginevent.preventDefault();  // 阻止預設表單提交行為
+                const loginemail = document.getElementById('loginemail').value;
+                const loginpassword = document.getElementById('loginpassword').value;
+                const loginmessageContainer = document.getElementById('loginMessageContainer');
+                loginmessageContainer.innerHTML = ''; // 清空之前的訊息
+                try {
+                    let response = await fetch('/auth/login',{
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: new URLSearchParams({
+                            'username': loginemail,
+                            'password': loginpassword
+                        })
+                    });
+                    if (response.ok) {
+                            const data = await response.json();
+                            localStorage.setItem('access_token', data.access_token);  // 儲存 JWT token 到 LocalStoraged
+                            window.location.reload();
+
+                        } else {
+                            const errorData = await response.json();
+                            loginmessageContainer.textContent = "帳號或密碼錯誤";
+                            loginmessageContainer.style.color = 'red';
+                            document.querySelector('.loginpopup').style.height = '290px';
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                                }
+            });
+
+            //註冊
+            document.addEventListener('DOMContentLoaded', (event) => {
+                document.getElementById('registerform').addEventListener('submit', async (registerevent) => {
+                    registerevent.preventDefault();  // 阻止預設表單提交行為
+
+                    const name = document.getElementById('registername').value;
+                    const email = document.getElementById('registeremail').value;
+                    const password = document.getElementById('registerpassword').value;
+
+                    const messageContainer = document.getElementById('registerMessageContainer');
+                    messageContainer.innerHTML = ''; // 清空之前的訊息
+
+                    try {
+                        let response = await fetch('/auth/register', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: new URLSearchParams({ 'name': name, 'email': email, 'password': password })
+                        });
+
+                        if (response.ok) {
+                            const data = await response.json();
+                            messageContainer.textContent = "註冊成功";
+                            messageContainer.style.color = 'green';
+                            document.querySelector('.registerpopup').style.height = '350px';
+                        } else {
+                            const errorData = await response.json();
+                            messageContainer.textContent = errorData.message;
+                            messageContainer.style.color = 'red';
+                            document.querySelector('.registerpopup').style.height = '350px';
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        messageContainer.textContent = '註冊時出現錯誤';
+                        messageContainer.style.color = 'red';
+                        document.querySelector('.registerpopup').style.height = '350px';
+                    }
+                });
+            });
+
+        async function fetchRoutes() {
+                try {
+                    const response = await fetch('/api/search_routename');
+                    if (response.ok) {
+                        const routes = await response.json();
+                        const container = document.getElementById('routeContainer');
+
+                        routes.forEach(route => {
+                            const routeDiv = document.createElement('div');
+                            routeDiv.classList.add('route-item');
+
+                            const routeLink = document.createElement('a');
+                            routeLink.href = `/bus?route_name=${encodeURIComponent(route.route_name)}`;
+                            routeLink.textContent = route.route_name;
+
+                            routeDiv.appendChild(routeLink);
+                            container.appendChild(routeDiv);
+                        });
+                    } else {
+                        console.error('Failed to fetch routes:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error fetching routes:', error);
+                }
+            }
+
+            fetchRoutes();
+
+
+            function getBrowserInfo() {
+                const userAgent = navigator.userAgent;
+                const deviceType = userAgent.indexOf("Mobi") > -1 ? "Mobile" : "Desktop";
+
+                if (userAgent.indexOf("Edg") > -1) {
+                    return deviceType === "Mobile" ? "Edge Mobile" : "Edge Desktop";
+                } else if (userAgent.indexOf("Chrome") > -1) {
+                    return deviceType === "Mobile" ? "Chrome Mobile" : "Chrome Desktop";
+                } else if (userAgent.indexOf("Safari") > -1 && userAgent.indexOf("Chrome") === -1) {
+                    return deviceType === "Mobile" ? "Safari Mobile" : "Safari Desktop";
+                } else if (userAgent.indexOf("Firefox") > -1) {
+                    return deviceType === "Mobile" ? "Firefox Mobile" : "Firefox Desktop";
+                } else {
+                    return "Unknown";
+                }
+            }
+        async function fetchFavorites(memberId) {
+            try {
+                const response = await fetch(`/api/favorites/${memberId}`);
+                const favorites = await response.json();
+                const favoriteContainer = document.getElementById('favorite-container');
+
+                if (favorites.length > 0) {
+                    favoriteContainer.innerHTML = favorites.map(fav => `
+                        <div class="favorite-item">
+                            <a href="/bus?route_name=${encodeURIComponent(fav.route_name)}" class="favorite-link">
+                                ${fav.route_name}
+                            </a>
+                        </div>
+                    `).join('');
+                } else {
+                    favoriteContainer.innerHTML = "<p>目前沒有我的最愛</p>";
+                }
+            } catch (error) {
+                console.error("無法加載我的最愛:", error);
+            }
+        }
+
+    </script>
+</body>
+</html>
