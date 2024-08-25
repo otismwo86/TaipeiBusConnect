@@ -1,5 +1,5 @@
 body {
-    font-family: 'Noto Sans TC', sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
     display: flex;
@@ -15,26 +15,84 @@ body {
     height: 54px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
 }
 .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 1200px;
-    margin: 0 auto;
+    width: 100%;
 }
 
 .logo {
+    display: flex;
     font-size: 30px;
+    align-items: center;
     text-decoration: none;
-    color: #448899;
+    color: black;
     font-weight: bold;
-    height: 34px;
-    padding-bottom: 10px;
+    height: 54px;
+}
+.logo img {
+    height: 54px;
+    padding-left:5px;
+    margin-right: 10px;
+    width: auto;
+    vertical-align: middle;
+}
+#busForm {
+    display: flex;
+    align-items: center;
+    margin-right: 700px;
+}
+
+#message {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 2px solid black;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    width: 200px;
+    box-sizing: border-box;
+}
+
+#busForm button {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 2px solid black;
+    background-color: black;
+    color: white;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+#busForm button:hover {
+    background-color: gray;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+#busForm input::placeholder {
+    color: #aaa;
+    font-style: italic;
 }
 #memberfun{
     display:none;
-    margin-top: 13px;
+}
+#memberfun a {
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+#memberfun a:hover {
+    color: gray;
 }
 .nav-links {
     list-style-type: none;
@@ -42,17 +100,48 @@ body {
     padding: 0;
     display: flex;
     border-radius: 5px;
-    align-items: center;
+    justify-content: flex-end;
     height: 32px;
+    flex-grow: 1;
 }
 
 .nav-links li {
     display: flex;
     align-items: center;
     padding: 10px;
-    height: 34px;
-
+    height: 40px;
 }
+
+.nav-links a {
+    text-decoration: none;
+    color: gray;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px;
+    height: 40px;
+}
+
+.nav-links input, .nav-links button {
+    height: 34px;
+    box-sizing: border-box;
+}
+#auth-link a {
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+#auth-link a:hover {
+    color: gray;
+}
+
+#auth-link a + a { 
+    margin-left: 10px; /* 添加一些間距，讓兩個連結不會緊貼在一起 */
+}
+
 .loginpopup{
     position: fixed;
     display: none;
@@ -62,15 +151,9 @@ body {
     transform: translate(-50%, -50%);
     background-color: white;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    width: 340px;
-    height: 275px;
-    border-radius: 5px;
-}
-.loginheaderline{
-    width:100%;
-    height:10px;
-    background: linear-gradient(to right,  #66AABB 0%, #337788 100%);
-    border-radius: 5px 5px 0 0;
+    width: 380px;
+    height: 260px;
+    border-radius: 10px;
 }
 .loginpopup-content{
     position: relative;
@@ -79,25 +162,37 @@ body {
     position: absolute;
     top: 5px;
     right: 15px;
+    font-size: 24px;
     cursor: pointer;
+    transition: color 0.3s;
 }
-.loginclose-btn img {
-    width:16px;
-    height:16px;
+.loginclose-btn:hover {
+    color: gray; 
 }
 .loginheader{
     display: flex;
     justify-content: center;
     font-weight: 700;
     font-size: 24px;
-    color: #666666;
+    color: black;
     margin-top: 8px;
+}
+.input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.input-icon img {
+    width: 20px; 
+    height: 20px; 
+    vertical-align: middle;
+    margin-left:10px 
 }
 .loginemail{
     display:flex;
     justify-content: center;
     width:310px;
-    height:47px;
+    height:30px;
     padding-left: 10px;
     border-radius: 5px;
     border: solid 1px;
@@ -105,7 +200,7 @@ body {
     margin: 10px auto 0 auto;
 }
 .loginemail::placeholder{
-    font-family: 'Noto Sans TC', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 16px;
     font-weight: 500;
     color:#666666;
@@ -115,7 +210,7 @@ body {
     display:flex;
     justify-content: center;
     width:310px;
-    height:47px;
+    height:30px;
     padding-left: 10px;
     border-radius: 5px;
     border: solid 1px;
@@ -124,7 +219,7 @@ body {
 }
 
 .loginpassword::placeholder{
-    font-family: 'Noto Sans TC', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 16px;
     font-weight: 500;
     color:#666666;
@@ -140,15 +235,15 @@ body {
     width:310px;
     height:47px;
     color: white;
-    background-color: #448899;
+    background-color: black;
     border: none;
-    border-radius: 5px;
+    border-radius: 15px;
     margin: 8px auto 0 auto;
     font-size: 19px;
 }
 .loginbutton:hover{
     cursor: pointer;
-    background-color: #336677;
+    background-color: gray;
 }
 .logintoregister:hover{
     cursor:pointer;
@@ -162,23 +257,23 @@ body {
     transform: translate(-50%, -50%);
     background-color: white;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    width: 340px;
-    height: 332px;
-    border-radius: 5px;
+    width: 380px;
+    height: 300px;
+    border-radius: 10px;
 }
 .registerheader{
     display: flex;
     justify-content: center;
     font-weight: 700;
     font-size: 24px;
-    color: #666666;
+    color: black;
     margin-top: 8px;
 }
 .registername{
     display:flex;
     justify-content: center;
     width:310px;
-    height:47px;
+    height:30px;
     padding-left: 10px;
     border-radius: 5px;
     border: solid 1px;
@@ -186,7 +281,7 @@ body {
     margin: 10px auto 0 auto;
 }
 .registername::placeholder{
-    font-family: 'Noto Sans TC', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 16px;
     font-weight: 500;
     color:#666666;
@@ -196,7 +291,7 @@ body {
     display:flex;
     justify-content: center;
     width:310px;
-    height:47px;
+    height:30px;
     padding-left: 10px;
     border-radius: 5px;
     border: solid 1px;
@@ -205,7 +300,7 @@ body {
 }
 
 .registeremail::placeholder{
-    font-family: 'Noto Sans TC', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 16px;
     font-weight: 500;
     color:#666666;
@@ -214,7 +309,7 @@ body {
     display:flex;
     justify-content: center;
     width:310px;
-    height:47px;
+    height:30px;
     padding-left: 10px;
     border-radius: 5px;
     border: solid 1px;
@@ -223,7 +318,7 @@ body {
 }
 
 .registerpassword::placeholder{
-    font-family: 'Noto Sans TC', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 16px;
     font-weight: 500;
     color:#666666;
@@ -241,7 +336,7 @@ body {
 }
 .loginfooter{
     display: flex;
-    color:#666666;
+    color:black;
     font-size:16px;
     font-weight: 400;
     justify-content: center;
@@ -254,15 +349,16 @@ body {
     position: absolute;
     top: 5px;
     right: 15px;
+    font-size: 24px;
     cursor: pointer;
+    transition: color 0.3s;
 }
-.registerclose-btn img {
-    width:16px;
-    height:16px;
+.registerclose-btn:hover{
+    color: gray;
 }
 .registerfooter{
     display: flex;
-    color:#666666;
+    color:black;
     font-size:16px;
     font-weight: 400;
     justify-content: center;
@@ -281,8 +377,8 @@ body {
     background-color: white;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     width: 340px;
-    height: 130px;
-    border-radius: 5px;
+    height: 110px;
+    border-radius: 10px;
 }
 .logoutheaderline{
     width:100%;
@@ -295,13 +391,14 @@ body {
 }
 .logoutclose-btn {
     position: absolute;
-    top: 5px;
+    top: 1px;
     right: 15px;
+    font-size: 24px;
     cursor: pointer;
+    transition: color 0.3s;
 }
-.logoutclose-btn img {
-    width:16px;
-    height:16px;
+.logoutclose-btn:hover{
+    color: gray;
 }
 .logoutheader{
     display: flex;
@@ -318,15 +415,15 @@ body {
     width:310px;
     height:47px;
     color: white;
-    background-color: #448899;
+    background-color: black;
     border: none;
-    border-radius: 5px;
+    border-radius: 15px;
     margin: 8px auto 0 auto;
     font-size: 19px;
 }
 .logoutbutton:hover{
     cursor: pointer;
-    background-color: #336677;
+    background-color: gray;
 }
 .overlay {
     display: none;
@@ -338,12 +435,104 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
 }
-.nav-links a {
-    text-decoration: none;
-    color: gray;
+#info-container{
+    margin: 50px auto;
+    width:1200px;
+}
+#routeTitle {
+    font-size: 36px; 
     font-weight: bold;
-    font-size: 16px;
-    padding: 5px;
+    color: black;
+    margin-bottom: 20px;
+}
+.button-row {
+    display: flex;
+    gap: 10px; 
+    margin-bottom: 20px; 
+}
+
+.button-row button {
+    font-family: 'Roboto', sans-serif;
+    flex-grow: 1; 
+    padding: 10px 20px;
+    background-color: black; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    font-size: 16px; 
+    cursor: pointer; 
+    font-weight: bold;
+    transition: background-color 0.3s, box-shadow 0.3s; 
+}
+.button-row button:hover {
+    background-color: gray;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+#updateTime {
+    font-family: 'Roboto', sans-serif; 
+    font-size: 12px;
+    color: #333; 
+    margin: 10px 0; 
+}
+.notification-guide {
+    font-size: 16px; 
+    color: #333; 
+    margin-bottom: 10px; 
+    text-align: left; 
+    padding: 10px 15px; 
+    background-color: #fffbcc; 
+    border-left: 4px solid #f0ad4e; 
+    border-radius: 5px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+#notificationTime, #subscribe {
+    margin-top: 10px; /* 可以根據需要調整與上方元素的距離 */
+}
+
+#notificationTime {
+    font-size: 16px; 
+    padding: 8px 10px; 
+    margin-right: 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+#subscribe {
+    font-size: 16px; 
+    padding: 8px 15px; 
+    background-color: black; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+}
+
+#subscribe:hover {
+    background-color: gray;
+}
+#toggleGuide {
+    display: none;
+    font-size: 16px; 
+    padding: 8px 15px; 
+    background-color: black; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+}
+
+#toggleGuide:hover {
+    background-color: gray;
+}
+#location{
+    font-family: 'Roboto', sans-serif; 
+    font-size: 20px;
+    color: #333; 
+    margin: 10px 0; 
 }
 .route-details {
     display: none;
@@ -357,7 +546,31 @@ body {
 #notificationTime{
     display:none;
 }
-#info-container{
-    margin: 50px auto;
-    width:1200px;
+.routetitle{
+    font-size: 24px;
+    font-weight: bold;
+}
+#container ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+.stop-info {
+    display: flex;          
+    border: 1px solid #ddd; 
+    margin-bottom: 10px;     
+    padding: 10px;         
+    background-color: #f0f0f0; 
+    color: #333;
+    border-radius: 5px;  
+}
+
+.stop-name, .stop-time {
+    flex: 1;                
+    text-align: center;      
+    padding: 5px;            
+    border-right: 1px solid #ddd;
+}
+
+.stop-time {
+    border-right: none;
 }

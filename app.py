@@ -308,7 +308,7 @@ async def send_notification(request: NotificationRequest):
         return {"message": "Notification sent successfully", "response": response}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to send notification: {e}")
-    
+   
 #獲取訂閱   
 @app.get("/api/subscriptions/{member_id}")
 async def get_subscriptions(member_id: int):
@@ -317,7 +317,7 @@ async def get_subscriptions(member_id: int):
         cursor = db_connection.cursor(dictionary=True)
         
         query = """
-        SELECT id, route_name, notification_time, direction, neareststop 
+        SELECT id, route_name, notification_time, direction, neareststop,client_info
         FROM user_notifications 
         WHERE member_id = %s
         """

@@ -5,12 +5,14 @@
     <meta charset="utf-8"/>
     <title>台北BusConnect - 搜尋</title>
     <link rel="stylesheet" href="/static/mainpage.css">
+    <link href="/static/busicon.ico" rel="shortcut icon"/>
     <script type="module" src="/static/notifications.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar">
         <div class="container">
-            <a href="/" class="logo">台北Busconnect</a>
+            <a href="/" class="logo"><img src="/static/busicon.png" />台北BusConnect</a>
             <ul class="nav-links">
                 <form id="busForm" action="/bus/" method="get">
                     <span>
@@ -19,35 +21,51 @@
                     </span>
                 </form>
                 <li id="memberfun"><a href="/member" id="memberfunc">會員功能</a></li>
-                <li id="auth-link"><a href="#" id="login">登入/註冊</a></li>
+                <li id="auth-link">
+                    <a href="#" id="login">登入</a>
+                    <a href="#" id="register">註冊</a>
+                </li>                
             </ul>
         </div>
         <div id="overlay" class="overlay"></div>
         <div class="loginpopup" id="loginpopup">
-            <div class="loginheaderline"></div>
             <div class="loginpopup-content">
-                <span id="loginclose-btn" class="loginclose-btn"><img src="/static/dialog.png"></span>
-                <div class="loginheader">登入會員帳號</div>
+                <span id="loginclose-btn" class="loginclose-btn">&times;</span>
+                <div class="loginheader">會員登入</div>
                 <form id="loginForm">
-                    <input type="email" class="loginemail" id="loginemail" placeholder="輸入電子信箱" required>
-                    <input type="password" class="loginpassword" id="loginpassword" placeholder="輸入密碼" required>
+                    <div class="input-group">
+                        <span class="input-icon"><img src="/static/email-icon.png" alt="User Icon"></span>
+                        <input type="email" class="loginemail" id="loginemail" placeholder="請輸入電子信箱" required>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-icon"><img src="/static/password-icon.png" alt="Password Icon"></span>
+                        <input type="password" class="loginpassword" id="loginpassword" placeholder="請輸入密碼" required>
+                    </div>
                     <div class="loginMessageContainer" id="loginMessageContainer"></div>
                     <div class="button-container">
-                        <button type="submit" class="loginbutton">登入帳戶</button>
+                        <button type="submit" class="loginbutton">登入</button>
                     </div>
                 </form>
-                <div class="loginfooter">還沒有帳戶?<span class="logintoregister" id="logintoregister">點此註冊</span></div>
+                <div class="loginfooter">還沒有帳戶?<span class="logintoregister" id="logintoregister">立即註冊</span></div>
             </div>
         </div>
         <div class="registerpopup" id="registerpopup">
-            <div class="registerheaderline"></div>
             <div class="registerpopup-content">
-                <span id="registerclose-btn" class="registerclose-btn"><img src="/static/dialog.png"></span>
+                <span id="registerclose-btn" class="registerclose-btn">&times;</span>
                 <div class="registerheader">註冊會員帳號</div>
                 <form id="registerform">
-                    <input type="text" id="registername" class="registername" placeholder="輸入姓名" required>
-                    <input type="email" id="registeremail" class="registeremail" placeholder="輸入電子信箱" required>
-                    <input type="password" id="registerpassword" class="registerpassword" placeholder="輸入密碼" required>
+                    <div class="input-group">
+                        <span class="input-icon"><img src="/static/user-icon.png" alt="User Icon"></span>
+                        <input type="text" id="registername" class="registername" placeholder="輸入姓名" required>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-icon"><img src="/static/email-icon.png" alt="Email Icon"></span>
+                        <input type="email" id="registeremail" class="registeremail" placeholder="輸入電子信箱" required>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-icon"><img src="/static/password-icon.png" alt="Password Icon"></span>
+                        <input type="password" id="registerpassword" class="registerpassword" placeholder="輸入密碼" required>
+                    </div>
                     <div class="registerMessageContainer" id="registerMessageContainer"></div>
                     <div class="button-container">
                         <button type="submit" class="loginbutton">註冊新帳戶</button>
@@ -57,9 +75,8 @@
             </div>
         </div>
         <div class="logoutpopup" id="logoutpopup">
-            <div class="logoutheaderline"></div>
             <div class="logoutpopup-content">
-                <span id="logoutclose-btn" class="logoutclose-btn"><img src="/static/dialog.png"></span>
+                <span id="logoutclose-btn" class="logoutclose-btn">&times;</span>
                 <div class="logoutheader">要登出嗎?</div>
                 <div class="logoutbutton-container">
                     <button id="logoutbutton" type="button" class="logoutbutton">確定</button>
@@ -67,7 +84,7 @@
             </div>
         </div>
     </nav>
-    <div id="formargin"></div>
+    <div class="formargin"></div>
     <div id="favorite-title">我的最愛</div>
     <div id="favorite-container"></div>
         <!-- 路線名稱將會動態加入這裡 -->
@@ -89,29 +106,30 @@
                             let response = await fetch('/auth/verify-token', {
                                 method: 'GET',
                                 headers: {
-                                    'Authorization': `Bearer ${token}`  // 添加 Bearer token
+                                    'Authorization': `Bearer ${token}`
                                 }
                             });
 
                             if (response.ok) {
                                 const data = await response.json();
-                                // 已登入，顯示登出選項
-                                authLink.innerHTML = '<a href="#" id="logout">登出系統</a>';
+                                // 已登入，顯示登出選項，並隱藏註冊按鈕
+                                authLink.innerHTML = '<a href="#" id="logout">登出</a>';
                                 document.getElementById('logout').addEventListener('click', function() {
                                     document.getElementById('logoutpopup').style.display = 'block';
                                     document.getElementById('overlay').style.display = 'block';
                                 });
                                 document.getElementById('logoutbutton').addEventListener('click', function() {
-                                    localStorage.removeItem('access_token');  
-                                    window.location.reload();  
+                                    localStorage.removeItem('access_token');
+                                    window.location.reload();
                                 });
                                 document.getElementById('logoutclose-btn').addEventListener('click', function() {
                                     document.getElementById('logoutpopup').style.display = 'none';
                                     document.getElementById('overlay').style.display = 'none';
                                 });
+
                                 document.getElementById('memberfun').style.display = 'block';
-                                document.getElementById('favorite-title').style.display = 'flex';
-                                document.getElementById('formargin').style.display = 'none';
+                                document.getElementById('favorite-title').style.display = 'block';
+                                document.getElementById('favorite-container').style.display = 'flex';
                                 fetchFavorites(data.user_id);
 
                                 setTimeout(async () => {
@@ -128,8 +146,8 @@
                                             client_info: clientInfo
                                         })
                                     });
-                                }, 100); 
-                                            } else {
+                                }, 100);
+                            } else {
                                 // Token無效，顯示登入/註冊選項
                                 showLoginRegisterOption(authLink);
                             }
@@ -142,13 +160,18 @@
                         showLoginRegisterOption(authLink);
                     }
                 }
-
                 function showLoginRegisterOption(authLink) {
-                    authLink.innerHTML = '<a href="#" id="login">登入/註冊</a>';
                     document.getElementById('login').addEventListener('click', function() {
                         document.getElementById('loginpopup').style.display = 'block';
                         document.getElementById('overlay').style.display = 'block';
-                    });                   
+                    });
+
+                    document.getElementById('register').addEventListener('click', function() {
+                        document.getElementById('registerpopup').style.display = 'block';
+                        document.getElementById('overlay').style.display = 'block';
+                    });
+                    document.getElementById('favorite-title').style.display = 'none';
+                    document.getElementById('favorite-container').style.display = 'none';
                 }
 
                 // overlay

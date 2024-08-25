@@ -1,5 +1,5 @@
 body {
-    font-family: 'Noto Sans TC', sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
     display: flex;
@@ -15,33 +15,42 @@ body {
     height: 54px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
 }
 .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 1200px;
-    margin: 0 auto;
+    width: 100%;
 }
 
 .logo {
+    display: flex;
     font-size: 30px;
+    align-items: center;
     text-decoration: none;
-    color: #448899;
+    color: black;
     font-weight: bold;
-    height: 34px;
-    padding-bottom: 10px;
+    height: 54px;
+}
+.logo img {
+    height: 54px;
+    padding-left:5px;
+    margin-right: 10px;
+    width: auto;
+    vertical-align: middle;
 }
 #busForm {
     display: flex;
     align-items: center;
-    margin-right: 20px;
+    margin-right: 700px;
 }
 
 #message {
     padding: 8px 12px;
     font-size: 14px;
-    border: 2px solid #448899;
+    border: 2px solid black;
     border-radius: 5px 0 0 5px;
     outline: none;
     width: 200px;
@@ -51,8 +60,8 @@ body {
 #busForm button {
     padding: 8px 12px;
     font-size: 14px;
-    border: 2px solid #448899;
-    background-color: #448899;
+    border: 2px solid black;
+    background-color: black;
     color: white;
     border-radius: 0 5px 5px 0;
     cursor: pointer;
@@ -62,7 +71,7 @@ body {
 }
 
 #busForm button:hover {
-    background-color: #357a80;
+    background-color: gray;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
 }
 
@@ -72,7 +81,18 @@ body {
 }
 #memberfun{
     display:none;
-    margin-top: 13px;
+}
+#memberfun a {
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+#memberfun a:hover {
+    color: gray;
 }
 .nav-links {
     list-style-type: none;
@@ -80,16 +100,16 @@ body {
     padding: 0;
     display: flex;
     border-radius: 5px;
-    align-items: center;
+    justify-content: flex-end;
     height: 32px;
+    flex-grow: 1;
 }
 
 .nav-links li {
     display: flex;
     align-items: center;
     padding: 10px;
-    height: 34px;
-
+    height: 40px;
 }
 
 .nav-links a {
@@ -97,14 +117,30 @@ body {
     color: gray;
     font-weight: bold;
     font-size: 16px;
-    padding: 5px;
+    padding: 10px;
+    height: 40px;
 }
 
 .nav-links input, .nav-links button {
     height: 34px;
     box-sizing: border-box;
 }
+#auth-link a {
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px;
+    text-decoration: none;
+    transition: color 0.3s;
+}
 
+#auth-link a:hover {
+    color: gray;
+}
+
+#auth-link a + a { 
+    margin-left: 10px; /* 添加一些間距，讓兩個連結不會緊貼在一起 */
+}
 .loginpopup{
     position: fixed;
     display: none;
@@ -114,15 +150,9 @@ body {
     transform: translate(-50%, -50%);
     background-color: white;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    width: 340px;
-    height: 275px;
-    border-radius: 5px;
-}
-.loginheaderline{
-    width:100%;
-    height:10px;
-    background: linear-gradient(to right,  #66AABB 0%, #337788 100%);
-    border-radius: 5px 5px 0 0;
+    width: 380px;
+    height: 260px;
+    border-radius: 10px;
 }
 .loginpopup-content{
     position: relative;
@@ -131,25 +161,37 @@ body {
     position: absolute;
     top: 5px;
     right: 15px;
+    font-size: 24px;
     cursor: pointer;
+    transition: color 0.3s;
 }
-.loginclose-btn img {
-    width:16px;
-    height:16px;
+.loginclose-btn:hover {
+    color: gray; 
 }
 .loginheader{
     display: flex;
     justify-content: center;
     font-weight: 700;
     font-size: 24px;
-    color: #666666;
+    color: black;
     margin-top: 8px;
+}
+.input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.input-icon img {
+    width: 20px; 
+    height: 20px; 
+    vertical-align: middle;
+    margin-left:10px 
 }
 .loginemail{
     display:flex;
     justify-content: center;
     width:310px;
-    height:47px;
+    height:30px;
     padding-left: 10px;
     border-radius: 5px;
     border: solid 1px;
@@ -157,7 +199,7 @@ body {
     margin: 10px auto 0 auto;
 }
 .loginemail::placeholder{
-    font-family: 'Noto Sans TC', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 16px;
     font-weight: 500;
     color:#666666;
@@ -167,7 +209,7 @@ body {
     display:flex;
     justify-content: center;
     width:310px;
-    height:47px;
+    height:30px;
     padding-left: 10px;
     border-radius: 5px;
     border: solid 1px;
@@ -176,7 +218,7 @@ body {
 }
 
 .loginpassword::placeholder{
-    font-family: 'Noto Sans TC', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 16px;
     font-weight: 500;
     color:#666666;
@@ -192,15 +234,15 @@ body {
     width:310px;
     height:47px;
     color: white;
-    background-color: #448899;
+    background-color: black;
     border: none;
-    border-radius: 5px;
+    border-radius: 15px;
     margin: 8px auto 0 auto;
     font-size: 19px;
 }
 .loginbutton:hover{
     cursor: pointer;
-    background-color: #336677;
+    background-color: gray;
 }
 .logintoregister:hover{
     cursor:pointer;
@@ -214,23 +256,23 @@ body {
     transform: translate(-50%, -50%);
     background-color: white;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    width: 340px;
-    height: 332px;
-    border-radius: 5px;
+    width: 380px;
+    height: 300px;
+    border-radius: 10px;
 }
 .registerheader{
     display: flex;
     justify-content: center;
     font-weight: 700;
     font-size: 24px;
-    color: #666666;
+    color: black;
     margin-top: 8px;
 }
 .registername{
     display:flex;
     justify-content: center;
     width:310px;
-    height:47px;
+    height:30px;
     padding-left: 10px;
     border-radius: 5px;
     border: solid 1px;
@@ -238,7 +280,7 @@ body {
     margin: 10px auto 0 auto;
 }
 .registername::placeholder{
-    font-family: 'Noto Sans TC', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 16px;
     font-weight: 500;
     color:#666666;
@@ -248,7 +290,7 @@ body {
     display:flex;
     justify-content: center;
     width:310px;
-    height:47px;
+    height:30px;
     padding-left: 10px;
     border-radius: 5px;
     border: solid 1px;
@@ -257,7 +299,7 @@ body {
 }
 
 .registeremail::placeholder{
-    font-family: 'Noto Sans TC', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 16px;
     font-weight: 500;
     color:#666666;
@@ -266,7 +308,7 @@ body {
     display:flex;
     justify-content: center;
     width:310px;
-    height:47px;
+    height:30px;
     padding-left: 10px;
     border-radius: 5px;
     border: solid 1px;
@@ -275,7 +317,7 @@ body {
 }
 
 .registerpassword::placeholder{
-    font-family: 'Noto Sans TC', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 16px;
     font-weight: 500;
     color:#666666;
@@ -293,7 +335,7 @@ body {
 }
 .loginfooter{
     display: flex;
-    color:#666666;
+    color:black;
     font-size:16px;
     font-weight: 400;
     justify-content: center;
@@ -306,15 +348,16 @@ body {
     position: absolute;
     top: 5px;
     right: 15px;
+    font-size: 24px;
     cursor: pointer;
+    transition: color 0.3s;
 }
-.registerclose-btn img {
-    width:16px;
-    height:16px;
+.registerclose-btn:hover{
+    color: gray;
 }
 .registerfooter{
     display: flex;
-    color:#666666;
+    color:black;
     font-size:16px;
     font-weight: 400;
     justify-content: center;
@@ -333,8 +376,8 @@ body {
     background-color: white;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     width: 340px;
-    height: 130px;
-    border-radius: 5px;
+    height: 110px;
+    border-radius: 10px;
 }
 .logoutheaderline{
     width:100%;
@@ -347,13 +390,14 @@ body {
 }
 .logoutclose-btn {
     position: absolute;
-    top: 5px;
+    top: 1px;
     right: 15px;
+    font-size: 24px;
     cursor: pointer;
+    transition: color 0.3s;
 }
-.logoutclose-btn img {
-    width:16px;
-    height:16px;
+.logoutclose-btn:hover{
+    color: gray;
 }
 .logoutheader{
     display: flex;
@@ -370,15 +414,15 @@ body {
     width:310px;
     height:47px;
     color: white;
-    background-color: #448899;
+    background-color: black;
     border: none;
-    border-radius: 5px;
+    border-radius: 15px;
     margin: 8px auto 0 auto;
     font-size: 19px;
 }
 .logoutbutton:hover{
     cursor: pointer;
-    background-color: #336677;
+    background-color: gray;
 }
 .overlay {
     display: none;
@@ -390,78 +434,67 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
 }
-#formargin{
+.formargin{
     display:flex;
     margin: 53px auto 0;
 }
-#favorite-title{
-    display: none;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin: 53px auto 0;
-    width:1200px;
-}
-#all-route{
-    margin: 0px auto;
-    width:1200px;
-}
-#favorite-container{
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0px auto;
-    width:1200px;
-}
-.favorite-item {
-    margin: 10px 5px 0px;
-}
-
-.favorite-link {
-    display: flex;
-    justify-content: center; /* 水平置中 */
-    align-items: center;     /* 垂直置中 */
-    padding: 10px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    text-decoration: none;
-    color: #333;
-    border-radius: 4px;
-    width: 80px;  /* 設定按鈕寬度 */
-    height: 40px;  /* 設定按鈕高度 */
-    text-align: center;
-}
-
-.favorite-link:hover {
-    background-color: #e0e0e0;
-    border-color: #bbb;
-}
-.route-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin: 0px auto;
-    width:1200px;
-}
-
-.route-item {
-    width: calc(100% / 12 - 10px); /* 每個項目佔 1/12 的寬度並留一點間距 */
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: center;
+#favorite-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    background-color: black;
+    margin: 5px auto 0;
+    padding: 10px 0;
+    text-align: center; /* 水平置中 */
+    width: 1200px;
     box-sizing: border-box;
-    cursor: pointer; /* 鼠標變為點擊狀態 */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+#all-route {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    background-color: black; 
+    margin: 10px auto 0;
+    padding: 10px 0;
+    text-align: center;
+    width: 1200px; 
+    box-sizing: border-box; 
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px; 
+}
+
+#favorite-container, .route-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin: 0 auto;
+    width: 1200px;
+    border: 2px solid black;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    padding: 10px;
     background-color: #f9f9f9;
-    transition: background-color 0.3s;
+    box-sizing: border-box;
+    gap: 8px;
+}
+.favorite-item, .route-item {
+    width: calc(100% / 12 - 10px); 
+    margin: 5px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #ffffff;
+    border-radius: 4px;
+    text-align: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+    transition: background-color 0.3s, box-shadow 0.3s;
+    cursor: pointer;
 }
 
-.route-item:hover {
-    background-color: #e0e0e0; /* 滑鼠懸停時變色 */
+.favorite-item:hover, .route-item:hover {
+    background-color: #f0f0f0;
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15); 
 }
 
-.route-item a {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    height: 100%;
-    width: 100%;
-}
+
