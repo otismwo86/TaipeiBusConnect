@@ -1,0 +1,600 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.navbar {
+    background-color: white;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.logo {
+    display: flex;
+    font-size: 30px;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    height: 54px;
+}
+.logo img {
+    height: 54px;
+    padding-left:5px;
+    margin-right: 10px;
+    width: auto;
+    vertical-align: middle;
+}
+#busForm {
+    display: flex;
+    align-items: center;
+    margin-right: 700px;
+}
+
+#message {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 2px solid black;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    width: 200px;
+    box-sizing: border-box;
+}
+
+#busForm button {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 2px solid black;
+    background-color: black;
+    color: white;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+#busForm button:hover {
+    background-color: gray;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+#busForm input::placeholder {
+    color: #aaa;
+    font-style: italic;
+}
+#memberfun{
+    display:none;
+}
+#memberfun a {
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+#memberfun a:hover {
+    color: gray;
+}
+.nav-links {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    border-radius: 5px;
+    justify-content: flex-end;
+    height: 32px;
+    flex-grow: 1;
+}
+
+.nav-links li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    height: 40px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: gray;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px;
+    height: 40px;
+}
+
+.nav-links input, .nav-links button {
+    height: 34px;
+    box-sizing: border-box;
+}
+#auth-link a {
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+#auth-link a:hover {
+    color: gray;
+}
+
+#auth-link a + a { 
+    margin-left: 10px; /* 添加一些間距，讓兩個連結不會緊貼在一起 */
+}
+
+.loginpopup{
+    position: fixed;
+    display: none;
+    z-index: 1001;
+    left: 50%;
+    top: 25%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 380px;
+    height: 260px;
+    border-radius: 10px;
+}
+.loginpopup-content{
+    position: relative;
+}
+.loginclose-btn {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+.loginclose-btn:hover {
+    color: gray; 
+}
+.loginheader{
+    display: flex;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 24px;
+    color: black;
+    margin-top: 8px;
+}
+.input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.input-icon img {
+    width: 20px; 
+    height: 20px; 
+    vertical-align: middle;
+    margin-left:10px 
+}
+.loginemail{
+    display:flex;
+    justify-content: center;
+    width:310px;
+    height:30px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: solid 1px;
+    border-color: #CCCCCC;
+    margin: 10px auto 0 auto;
+}
+.loginemail::placeholder{
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color:#666666;
+}
+
+.loginpassword{
+    display:flex;
+    justify-content: center;
+    width:310px;
+    height:30px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: solid 1px;
+    border-color: #CCCCCC;
+    margin: 8px auto 0 auto;
+}
+
+.loginpassword::placeholder{
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color:#666666;
+}
+.loginMessageContainer{
+    display: flex;
+    justify-content: center;
+}
+.button-container {
+    text-align: center;
+}
+.loginbutton{
+    width:310px;
+    height:47px;
+    color: white;
+    background-color: black;
+    border: none;
+    border-radius: 15px;
+    margin: 8px auto 0 auto;
+    font-size: 19px;
+}
+.loginbutton:hover{
+    cursor: pointer;
+    background-color: gray;
+}
+.logintoregister:hover{
+    cursor:pointer;
+}
+.registerpopup{
+    position: fixed;
+    display: none;
+    z-index: 1001;
+    left: 50%;
+    top: 25%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 380px;
+    height: 300px;
+    border-radius: 10px;
+}
+.registerheader{
+    display: flex;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 24px;
+    color: black;
+    margin-top: 8px;
+}
+.registername{
+    display:flex;
+    justify-content: center;
+    width:310px;
+    height:30px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: solid 1px;
+    border-color: #CCCCCC;
+    margin: 10px auto 0 auto;
+}
+.registername::placeholder{
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color:#666666;
+}
+
+.registeremail{
+    display:flex;
+    justify-content: center;
+    width:310px;
+    height:30px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: solid 1px;
+    border-color: #CCCCCC;
+    margin: 8px auto 0 auto;
+}
+
+.registeremail::placeholder{
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color:#666666;
+}
+.registerpassword{
+    display:flex;
+    justify-content: center;
+    width:310px;
+    height:30px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: solid 1px;
+    border-color: #CCCCCC;
+    margin: 8px auto 0 auto;
+}
+
+.registerpassword::placeholder{
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color:#666666;
+}
+.registerMessageContainer{
+    display: flex;
+    justify-content: center;
+}
+.registerheaderline{
+    width:100%;
+    height:10px;
+    background: linear-gradient(to right,  #66AABB 0%, #337788 100%);
+    border-radius: 5px 5px 0 0;
+    
+}
+.loginfooter{
+    display: flex;
+    color:black;
+    font-size:16px;
+    font-weight: 400;
+    justify-content: center;
+    margin-top: 8px;
+}
+.registerpopup-content{
+    position: relative;
+}
+.registerclose-btn {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+.registerclose-btn:hover{
+    color: gray;
+}
+.registerfooter{
+    display: flex;
+    color:black;
+    font-size:16px;
+    font-weight: 400;
+    justify-content: center;
+    margin-top: 5px;
+}
+.registertologin:hover{
+    cursor:pointer;
+}
+.logoutpopup{
+    position: fixed;
+    display: none;
+    z-index: 1001;
+    left: 50%;
+    top: 25%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 340px;
+    height: 110px;
+    border-radius: 10px;
+}
+.logoutheaderline{
+    width:100%;
+    height:10px;
+    background: linear-gradient(to right,  #66AABB 0%, #337788 100%);
+    border-radius: 5px 5px 0 0;
+}
+.logoutpopup-content{
+    position: relative;
+}
+.logoutclose-btn {
+    position: absolute;
+    top: 1px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+.logoutclose-btn:hover{
+    color: gray;
+}
+.logoutheader{
+    display: flex;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 24px;
+    color: #666666;
+    margin-top: 8px;
+}
+.logoutbutton-container {
+    text-align: center;
+}
+.logoutbutton{
+    width:310px;
+    height:47px;
+    color: white;
+    background-color: black;
+    border: none;
+    border-radius: 15px;
+    margin: 8px auto 0 auto;
+    font-size: 19px;
+}
+.logoutbutton:hover{
+    cursor: pointer;
+    background-color: gray;
+}
+.overlay {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+#info-container{
+    margin: 50px auto;
+    width:1200px;
+}
+#routeTitle {
+    font-size: 36px; 
+    font-weight: bold;
+    color: black;
+    margin-bottom: 20px;
+}
+.button-row {
+    display: flex;
+    gap: 10px; 
+    margin-bottom: 20px; 
+}
+
+.button-row button {
+    font-family: 'Roboto', sans-serif;
+    flex-grow: 1; 
+    padding: 10px 20px;
+    background-color: black; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    font-size: 16px; 
+    cursor: pointer; 
+    font-weight: bold;
+    transition: background-color 0.3s, box-shadow 0.3s; 
+}
+.button-row button:hover {
+    background-color: gray;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+#updateTime {
+    font-family: 'Roboto', sans-serif; 
+    font-size: 12px;
+    color: #333; 
+    margin: 10px 0; 
+}
+.notification-guide {
+    font-size: 16px; 
+    color: #333; 
+    margin-bottom: 10px; 
+    text-align: left; 
+    padding: 10px 15px; 
+    background-color: #fffbcc; 
+    border-left: 4px solid #f0ad4e; 
+    border-radius: 5px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+.intime-notification-guide {
+    font-size: 16px; 
+    color: #333; 
+    margin-bottom: 10px; 
+    text-align: left; 
+    padding: 10px 15px; 
+    background-color: #fffbcc; 
+    border-left: 4px solid #f0ad4e; 
+    border-radius: 5px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+#notificationTime, #subscribe {
+    margin-top: 10px;
+}
+
+#notificationTime {
+    font-size: 16px; 
+    padding: 8px 10px; 
+    margin-right: 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+#subscribe {
+    font-size: 16px; 
+    padding: 8px 15px; 
+    background-color: black; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+}
+
+#subscribe:hover {
+    background-color: gray;
+}
+#intimeGuide {
+    font-size: 16px; 
+    padding: 8px 15px; 
+    background-color: black; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+    margin-top:5px;
+}
+#intimeGuide:hover {
+    background-color: gray;
+}
+#toggleGuide {
+    display: none;
+    font-size: 16px; 
+    padding: 8px 15px; 
+    background-color: black; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+}
+
+#toggleGuide:hover {
+    background-color: gray;
+}
+#location{
+    font-family: 'Roboto', sans-serif; 
+    font-size: 20px;
+    color: #333; 
+    margin: 10px 0; 
+}
+.route-details {
+    display: none;
+}
+#my_farvorite {
+    display: none;
+}
+#subscribe {
+    display: none;
+}
+#notificationTime{
+    display:none;
+}
+.routetitle{
+    font-size: 24px;
+    font-weight: bold;
+}
+#container ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+.stop-info {
+    display: flex;          
+    border: 1px solid #ddd; 
+    margin-bottom: 10px;     
+    padding: 10px;         
+    background-color: #f0f0f0; 
+    color: #333;
+    border-radius: 5px;  
+}
+
+.stop-name, .stop-time {
+    flex: 1;                
+    text-align: center;      
+    padding: 5px;            
+    border-right: 1px solid #ddd;
+}
+
+.stop-time {
+    border-right: none;
+}

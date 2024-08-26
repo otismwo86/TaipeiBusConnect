@@ -123,6 +123,17 @@ try:
     buffer_response.raise_for_status()
     buffer_data = buffer_response.json()
 
+    # 排序邏輯
+    def sort_route_name(route_name):
+        import re
+        match = re.match(r"(\d+)(.*)", route_name)
+        if match:
+            number_part = int(match.group(1))
+            text_part = match.group(2)
+            return (number_part, text_part)
+        else:
+            return (float('inf'), route_name)
+    
     # 將資料轉換為特定格式
     def transform_data(route_data, stops_data):
         route_dict = {route['RouteUID']: route for route in route_data}
@@ -151,7 +162,9 @@ try:
                 }
                 
                 transformed_routes.append(transformed_route)
-        
+
+        transformed_routes.sort(key=lambda x: sort_route_name(x['RouteName']))
+
         return transformed_routes
 
     transformed_data = transform_data(route_data, stops_data)
@@ -200,6 +213,7 @@ try:
         VALUES (%s, %s, %s, %s, %s)
     """, batch_data)
     connection.commit()
+    
     # 批量插入 bus_buffer 資料
     bus_buffer_data = []
 
