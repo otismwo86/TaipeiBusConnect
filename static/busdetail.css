@@ -485,9 +485,19 @@ body {
     border-radius: 5px; 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
-
+.intime-notification-guide {
+    font-size: 16px; 
+    color: #333; 
+    margin-bottom: 10px; 
+    text-align: left; 
+    padding: 10px 15px; 
+    background-color: #fffbcc; 
+    border-left: 4px solid #f0ad4e; 
+    border-radius: 5px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
 #notificationTime, #subscribe {
-    margin-top: 10px; /* 可以根據需要調整與上方元素的距離 */
+    margin-top: 10px;
 }
 
 #notificationTime {
@@ -511,6 +521,20 @@ body {
 }
 
 #subscribe:hover {
+    background-color: gray;
+}
+#intimeGuide {
+    font-size: 16px; 
+    padding: 8px 15px; 
+    background-color: black; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+    margin-top:5px;
+}
+#intimeGuide:hover {
     background-color: gray;
 }
 #toggleGuide {

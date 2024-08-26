@@ -100,6 +100,10 @@
         <div id="notificationGuide" class="notification-guide" style="display: none;">
             <p>您可以通過下方時間欄設定每天的通知時間，系統將在此時間前通知您</p>
         </div>
+        <button id="intimeGuide">什麼是即時通知?</button>
+        <div id="intimenotificationGuide" class="intime-notification-guide" style="display: none;">
+            <p>系統會每三十秒自動傳送一次最近站牌與到站時間給您</p>
+        </div>
         <input type="time" id="notificationTime" name="notificationTime" value="08:00" required>
         <button id="subscribe">設置通知提醒</button>
         
@@ -605,6 +609,14 @@
 
     document.getElementById("toggleGuide").addEventListener("click", function() {
         const guide = document.getElementById("notificationGuide");
+        if (guide.style.display === "none") {
+            guide.style.display = "block";
+        } else {
+            guide.style.display = "none";
+        }
+    });
+    document.getElementById("intimeGuide").addEventListener("click", function() {
+        const guide = document.getElementById("intimenotificationGuide");
         if (guide.style.display === "none") {
             guide.style.display = "block";
         } else {
