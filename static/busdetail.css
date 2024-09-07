@@ -496,7 +496,29 @@ body {
     border-radius: 5px; 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
-#notificationTime, #subscribe {
+.permission-guide {
+    font-size: 16px; 
+    color: #333; 
+    margin-bottom: 10px; 
+    text-align: left; 
+    padding: 10px 15px; 
+    background-color: #fffbcc; 
+    border-left: 4px solid #f0ad4e; 
+    border-radius: 5px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+.gps-guide {
+    font-size: 16px; 
+    color: #333; 
+    margin-bottom: 10px; 
+    text-align: left; 
+    padding: 10px 15px; 
+    background-color: #fffbcc; 
+    border-left: 4px solid #f0ad4e; 
+    border-radius: 5px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+#notificationTime{
     margin-top: 10px;
 }
 
@@ -509,18 +531,53 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
 
-#subscribe {
-    font-size: 16px; 
-    padding: 8px 15px; 
-    background-color: black; 
-    color: white; 
-    border: none; 
-    border-radius: 5px; 
-    cursor: pointer; 
-    transition: background-color 0.3s ease; 
+#buttonContainer {
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
 }
 
-#subscribe:hover {
+#subscribe{
+    margin-top: 10px;
+    font-size: 16px;
+    padding: 8px 15px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    height: 40px;
+}
+
+
+#updateTimeButton {
+    display: none;
+    margin-top: 10px;
+    font-size: 16px;
+    padding: 8px 15px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    height: 40px; 
+}
+#enterChatRoom{
+    display: none;
+    margin-top: 10px;
+    font-size: 16px;
+    padding: 8px 15px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    height: 40px; 
+}
+#subscribe:hover, #updateTimeButton:hover, #enterChatRoom:hover {
     background-color: gray;
 }
 #intimeGuide {
@@ -532,7 +589,7 @@ body {
     border-radius: 5px; 
     cursor: pointer; 
     transition: background-color 0.3s ease; 
-    margin-top:5px;
+
 }
 #intimeGuide:hover {
     background-color: gray;
@@ -546,10 +603,39 @@ body {
     border: none; 
     border-radius: 5px; 
     cursor: pointer; 
-    transition: background-color 0.3s ease; 
+    transition: background-color 0.3s ease;
+    margin-top:5px;
 }
 
 #toggleGuide:hover {
+    background-color: gray;
+}
+#togglePermissionGuide{
+    font-size: 16px; 
+    padding: 8px 15px; 
+    background-color: black; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease;
+    margin-top:5px;
+}
+#togglePermissionGuide:hover {
+    background-color: gray;
+}
+#toggleGPSGuide{
+    font-size: 16px; 
+    padding: 8px 15px; 
+    background-color: black; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease;
+    margin-top:5px;
+}
+#toggleGPSGuide:hover {
     background-color: gray;
 }
 #location{

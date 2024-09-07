@@ -498,3 +498,51 @@ body {
 }
 
 
+form {
+    position: relative; 
+    display: inline-block; 
+}
+
+.suggestions-list {
+    border: 1px solid #ddd;
+    max-height: 350px;
+    overflow-y: auto;
+    position: absolute;
+    background-color: white;
+    width: calc(100% - 20px); 
+    display: none;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    z-index: 10;
+    top: calc(100% + 5px); 
+    left: 0;
+}
+
+.suggestions-list li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.suggestions-list li:hover {
+    background-color: #f0f0f0;
+}
+
+#suggestions::-webkit-scrollbar {
+    width: 8px; 
+    height: 8px;
+}
+
+#suggestions::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+    border-radius: 5px; 
+}
+
+#suggestions::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 5px; 
+}
+
+#suggestions::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}

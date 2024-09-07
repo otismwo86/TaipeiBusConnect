@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>通知請求範例</title>
+</head>
+<body>
+    <h1>台北BusConnect 通知設定</h1>
+    <button id="enableNotifications">啟用通知</button>
+
+    <script>
+        document.getElementById('enableNotifications').addEventListener('click', () => {
+            requestNotificationPermission();
+        });
+
+        function requestNotificationPermission() {
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    alert('通知權限已允許！');
+                    // 這裡可以進行通知相關的初始化操作
+                } else if (permission === 'denied') {
+                    alert('通知權限被拒絕。');
+                } else {
+                    alert('通知權限未決。');
+                }
+            }).catch(err => {
+                console.error('請求通知權限時發生錯誤：', err);
+            });
+        }
+    </script>
+</body>
+</html>

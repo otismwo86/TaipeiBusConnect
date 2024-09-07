@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台北BusConnect 聊天室</title>
+    <link href="/static/busicon.ico" rel="shortcut icon"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/chatroom.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo"><img src="/static/busicon.png" />台北BusConnect</a>
+            <ul class="nav-links">
+                <form id="busForm" action="/bus/" method="get">
+                    <span>
+                        <input type="text" name="route_name" id="message" placeholder="輸入公車路線">
+                        <button type="submit">搜尋</button>
+                    </span>
+                </form>
+                <li id="auth-link">
+                    <a href="#" id="logout">登出</a>
+                </li>   
+            </ul>
+        </div>
+        <div id="overlay" class="overlay"></div>
+        <div class="logoutpopup" id="logoutpopup">
+            <div class="logoutpopup-content">
+                <span id="logoutclose-btn" class="logoutclose-btn">&times;</span>
+                <div class="logoutheader">要登出嗎?</div>
+                <div class="logoutbutton-container">
+                    <button id="logoutbutton" type="button" class="logoutbutton">確定</button>
+                </div>  
+            </div>
+        </div>
+    </nav>
+    <div id="chat-container">
+        <div id="chat-box"></div>
+        <div id="input-container">
+            <input type="text" id="messageInput" autocomplete="off" placeholder="輸入訊息..."/>
+            <input type="file" id="imageInput" accept="image/*"/>
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+    <script>
+        let username = '';
+        const token = localStorage.getItem('access_token');
+        document.addEventListener('DOMContentLoaded',async () => {
+                await getCurrentUser();
+            });
+        // 檢查當前用戶資訊函數
+        async function getCurrentUser() {
+                const token = localStorage.getItem('access_token');
+                const authLink = document.getElementById('auth-link');
+                if (token) {
+                    try {
+                        let response = await fetch('/verify-token', {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        });
+                        if (response.ok) {
+                            const data = await response.json();
+                            username = data.user_name;  
+                            console.log(`當前用戶名: ${username}`);
+                        } else {
+                            window.location.href = '/';
+                        }
+                    } catch (error) {
+                        window.location.href = '/';;
+                    }
+                } else {
+                    window.location.href = '/';
+                }
+            }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const routeName = urlParams.get('route_name');
+        const ws = new WebSocket(`ws://localhost:8000/ws/chat?token=${token}&route_name=${routeName}`); //本地用
+        //const ws = new WebSocket(`wss://otusyo.xyz/ws/chat?token=${token}&route_name=${routeName}`); //部屬用
+
+        ws.onmessage = function(event) {
+        const messages = document.getElementById('chat-box');
+        const data = JSON.parse(event.data);  
+
+        const message = document.createElement('div');
+        message.classList.add('message');
+        
+        if (data.sender === username) {
+            message.classList.add('sent');
+        } else {
+            message.classList.add('received');
+        }
+
+        const messageHeader = document.createElement('div');
+        messageHeader.classList.add('message-header');
+        const senderSpan = document.createElement('span');
+        senderSpan.textContent = data.sender;
+        const timestampSpan = document.createElement('span');
+        timestampSpan.classList.add('message-timestamp');
+        timestampSpan.textContent = data.timestamp;
+        messageHeader.appendChild(senderSpan);
+        messageHeader.appendChild(timestampSpan);
+
+        const messageContent = document.createElement('div');
+        messageContent.classList.add('message-content');
+        messageContent.textContent = data.content;
+
+        message.appendChild(messageHeader);
+        message.appendChild(messageContent);
+
+        if (data.image_url) {
+            const img = document.createElement('img');
+            img.src = data.image_url;
+            img.classList.add('uploaded-image');
+            message.appendChild(img);
+        }
+
+        messages.appendChild(message);
+        messages.scrollTop = messages.scrollHeight; 
+    };
+
+    async function sendMessage() {
+        const input = document.getElementById("messageInput");
+        const imageInput = document.getElementById("imageInput");
+        const routeName = urlParams.get('route_name'); 
+        const userName = username; 
+
+       
+        if (input.value.trim() === "" && imageInput.files.length === 0) {
+            return; 
+        }
+
+        const formData = new FormData();
+        formData.append("message", input.value);
+        formData.append("route_name", routeName);
+        formData.append("user_name", userName);
+
+        
+        if (imageInput.files.length > 0) {
+            formData.append("file", imageInput.files[0]);
+        }
+
+        try {
+            const response = await fetch("/upload", {
+                method: "POST",
+                body: formData
+            });
+            const data = await response.json();
+            console.log(data);
+
+            
+            input.value = '';
+            imageInput.value = '';
+        } catch (error) {
+            console.error("Error uploading file:", error);
+        }
+    }
+
+
+        document.getElementById('logout').addEventListener('click', function() {
+            document.getElementById('logoutpopup').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        });
+        document.getElementById('overlay').addEventListener('click', function() {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('logoutpopup').style.display = 'none';
+        });
+        document.getElementById('logoutclose-btn').addEventListener('click', function() {
+            document.getElementById('logoutpopup').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        });
+        document.getElementById('logoutbutton').addEventListener('click', function() {
+            localStorage.removeItem('access_token');  
+            window.location.reload();  
+        });
+        document.getElementById("messageInput").addEventListener("keydown", function(event) {
+        if (event.key === "Enter") { 
+            sendMessage(); 
+        }
+    });
+    </script>
+</body>
+</html>

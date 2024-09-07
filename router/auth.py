@@ -9,7 +9,6 @@ from datetime import datetime, timedelta, timezone
 import os
 from dotenv import load_dotenv
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse,RedirectResponse
 from mysql.connector import errors
 import bcrypt
 
