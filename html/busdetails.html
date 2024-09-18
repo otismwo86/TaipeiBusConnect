@@ -632,6 +632,7 @@
                     successMessageContainer.style.color = 'green';
                     document.getElementById("updateTimeButton").style.display = 'block';
                     // 清除訊息
+                    window.location.reload();
                     setTimeout(() => {
                         successMessageContainer.textContent = '';
                     }, 3000);

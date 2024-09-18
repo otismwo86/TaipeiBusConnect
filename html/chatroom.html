@@ -82,45 +82,52 @@
         //const ws = new WebSocket(`wss://otusyo.xyz/ws/chat?token=${token}&route_name=${routeName}`); //部屬用
 
         ws.onmessage = function(event) {
-        const messages = document.getElementById('chat-box');
-        const data = JSON.parse(event.data);  
+            const messages = document.getElementById('chat-box');
+            const data = JSON.parse(event.data);  
 
-        const message = document.createElement('div');
-        message.classList.add('message');
-        
-        if (data.sender === username) {
-            message.classList.add('sent');
-        } else {
-            message.classList.add('received');
-        }
+            const message = document.createElement('div');
+            message.classList.add('message');
+            
+            if (data.sender === username) {
+                message.classList.add('sent');
+            } else {
+                message.classList.add('received');
+            }
 
-        const messageHeader = document.createElement('div');
-        messageHeader.classList.add('message-header');
-        const senderSpan = document.createElement('span');
-        senderSpan.textContent = data.sender;
-        const timestampSpan = document.createElement('span');
-        timestampSpan.classList.add('message-timestamp');
-        timestampSpan.textContent = data.timestamp;
-        messageHeader.appendChild(senderSpan);
-        messageHeader.appendChild(timestampSpan);
+            const messageHeader = document.createElement('div');
+            messageHeader.classList.add('message-header');
+            const senderSpan = document.createElement('span');
+            senderSpan.textContent = data.sender;
 
-        const messageContent = document.createElement('div');
-        messageContent.classList.add('message-content');
-        messageContent.textContent = data.content;
+            // 轉換時間戳記到台灣時間
+            const timestamp = new Date(data.timestamp);  // 創建 JavaScript 日期物件
+            const taiwanTime = timestamp.toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' }); // 轉換到台灣時間
 
-        message.appendChild(messageHeader);
-        message.appendChild(messageContent);
+            const timestampSpan = document.createElement('span');
+            timestampSpan.classList.add('message-timestamp');
+            timestampSpan.textContent = taiwanTime;  // 使用台灣時間
 
-        if (data.image_url) {
-            const img = document.createElement('img');
-            img.src = data.image_url;
-            img.classList.add('uploaded-image');
-            message.appendChild(img);
-        }
+            messageHeader.appendChild(senderSpan);
+            messageHeader.appendChild(timestampSpan);
 
-        messages.appendChild(message);
-        messages.scrollTop = messages.scrollHeight; 
-    };
+            const messageContent = document.createElement('div');
+            messageContent.classList.add('message-content');
+            messageContent.textContent = data.content;
+
+            message.appendChild(messageHeader);
+            message.appendChild(messageContent);
+
+            if (data.image_url) {
+                const img = document.createElement('img');
+                img.src = data.image_url;
+                img.classList.add('uploaded-image');
+                message.appendChild(img);
+            }
+
+            messages.appendChild(message);
+            messages.scrollTop = messages.scrollHeight; 
+        };
+
 
     async function sendMessage() {
         const input = document.getElementById("messageInput");
