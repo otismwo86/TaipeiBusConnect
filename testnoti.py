@@ -11,7 +11,6 @@ import pytz
 cred = credentials.Certificate("busconncet-firebase-adminsdk-3q883-4a49b71c98.json")
 firebase_admin.initialize_app(cred)
 load_dotenv()
-
 def connect_to_db():
     return mysql.connector.connect(
         host=os.getenv("DB_HOST"),
@@ -20,27 +19,27 @@ def connect_to_db():
         database=os.getenv("DB_NAME")
     )
 
-def send_batch_notifications(results):
-    batch_size = 500  # 每批次最多發送 500 個通知
-    for i in range(0, len(results), batch_size):
-        batch = results[i:i + batch_size]  # 分批次
-        messages = [
-            messaging.Message(
-                notification=messaging.Notification(
-                    title=f"路線{result['route_name']}通知",
-                    body=f"點擊以查看{result['neareststop']}最新資訊",
-                ),
-                token=result['token'],
-                    data={
-                        'click_action': f'/bus?route_name={result["route_name"]}'  # 設定通知的連結
-                }
-            ) for result in batch
-        ]
-        try:
-            response = messaging.send_all(messages)
-            print(f"Batch notification sent successfully: {response}")
-        except Exception as e:
-            print(f"Failed to send batch notification: {e}")
+def send_notifications(results, max_retries=3):
+    for result in results:
+        message = messaging.Message(
+            notification=messaging.Notification(
+                title=f"路線{result['route_name']}通知",
+                body=f"點擊以查看{result['neareststop']}最新資訊",
+            ),
+            token=result['token'],
+            data={
+                'click_action': f'/bus?route_name={result["route_name"]}'  # 設定通知的連結
+            }
+        )
+        for attempt in range(max_retries):
+            try:
+                response = messaging.send(message)
+                print(f"Notification sent successfully for route {result['route_name']}: {response}")
+                break  # 如果成功，則退出重試循環
+            except Exception as e:
+                print(f"Attempt {attempt + 1} for route {result['route_name']} failed: {e}")
+                if attempt + 1 == max_retries:
+                    print("Max retries reached for route {result['route_name']}, giving up.")
 
 def check_and_send_notifications():
     db_connection = connect_to_db()
@@ -58,7 +57,7 @@ def check_and_send_notifications():
     results = cursor.fetchall()
 
     if results:
-        send_batch_notifications(results)  # 分批次發送通知
+        send_notifications(results)  # 逐條發送通知
 
     cursor.close()
     db_connection.close()

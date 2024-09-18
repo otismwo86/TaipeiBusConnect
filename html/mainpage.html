@@ -16,9 +16,10 @@
             <ul class="nav-links">
                 <form id="busForm" action="/bus/" method="get">
                     <span>
-                        <input type="text" name="route_name" id="message" placeholder="輸入公車路線">
+                        <input type="text" name="route_name" id="routeInput" placeholder="輸入公車路線">
                         <button type="submit">搜尋</button>
                     </span>
+                    <ul id="suggestions" class="suggestions-list"></ul>
                 </form>
                 <li id="memberfun"><a href="/member" id="memberfunc">會員功能</a></li>
                 <li id="auth-link">
@@ -93,9 +94,11 @@
         <!-- 路線名稱將會動態加入這裡 -->
     </div>
     <script type="module">
-        import {getCurrentToken} from '/static/notifications.js';
+        import {getCurrentToken,requestNotificationPermission} from '/static/notifications.js';
             document.addEventListener('DOMContentLoaded', () => {
                             getCurrentUser(); // 檢查當前用戶資訊
+                            requestNotificationPermission();
+                            fetchAndDisplayRoutes();
                         });
                 // 檢查當前用戶資訊函數
                 async function getCurrentUser() {
@@ -103,7 +106,7 @@
                     const authLink = document.getElementById('auth-link');
                     if (token) {
                         try {
-                            let response = await fetch('/auth/verify-token', {
+                            let response = await fetch('/verify-token', {
                                 method: 'GET',
                                 headers: {
                                     'Authorization': `Bearer ${token}`
@@ -214,7 +217,7 @@
                 const loginmessageContainer = document.getElementById('loginMessageContainer');
                 loginmessageContainer.innerHTML = ''; // 清空之前的訊息
                 try {
-                    let response = await fetch('/auth/login',{
+                    let response = await fetch('/login',{
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',
@@ -253,7 +256,7 @@
                     messageContainer.innerHTML = ''; // 清空之前的訊息
 
                     try {
-                        let response = await fetch('/auth/register', {
+                        let response = await fetch('/register', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -281,12 +284,45 @@
                 });
             });
 
-        async function fetchRoutes() {
+            async function fetchAndDisplayRoutes() {
                 try {
                     const response = await fetch('/api/search_routename');
                     if (response.ok) {
                         const routes = await response.json();
+                        const routeNames = routes.map(route => route.route_name);
+
+                        const input = document.getElementById("routeInput");
+                        const suggestions = document.getElementById("suggestions");
+
+                        // 優化事件監聽器：在外部聲明一次，而不是每次輸入時都聲明
+                        input.addEventListener("input", function () {
+                            const value = this.value.toLowerCase().trim();
+                            suggestions.innerHTML = ''; 
+
+                            if (value) {
+                                // 僅篩選以用戶輸入開頭的路線
+                                const filteredRoutes = routeNames.filter(route => route.toLowerCase().startsWith(value));
+
+                                filteredRoutes.forEach(route => {
+                                    const li = document.createElement("li");
+                                    li.textContent = route;
+                                    li.addEventListener("click", function () {
+                                        input.value = route; 
+                                        suggestions.innerHTML = ''; 
+                                        suggestions.style.display = "none"; 
+                                    });
+                                    suggestions.appendChild(li);
+                                });
+
+                                suggestions.style.display = 'block'; 
+                            } else {
+                                suggestions.style.display = 'none'; 
+                            }
+                        });
+
+                        // 顯示所有路線
                         const container = document.getElementById('routeContainer');
+                        container.innerHTML = ''; 
 
                         routes.forEach(route => {
                             const routeDiv = document.createElement('div');
@@ -299,6 +335,7 @@
                             routeDiv.appendChild(routeLink);
                             container.appendChild(routeDiv);
                         });
+
                     } else {
                         console.error('Failed to fetch routes:', response.statusText);
                     }
@@ -307,7 +344,6 @@
                 }
             }
 
-            fetchRoutes();
 
 
             function getBrowserInfo() {

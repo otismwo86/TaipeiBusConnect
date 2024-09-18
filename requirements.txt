@@ -10,3 +10,7 @@ PyJWT
 python-multipart
 cryptography
 pytz
+websockets
+wsproto
+boto3
+redis
