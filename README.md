@@ -1,4 +1,4 @@
-# [台北BucConnect](https://otusyo.xyz/)
+# [台北BusConnect](https://otusyo.xyz/)
 
 ### 台北Busconnect是一個增加了自訂通知與用戶聊天室的公車動態資訊網站
 
