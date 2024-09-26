@@ -21,6 +21,9 @@ import boto3
 from botocore.exceptions import NoCredentialsError
 import jwt
 import redis
+from authlib.integrations.starlette_client import OAuth
+from starlette.middleware.sessions import SessionMiddleware
+
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 app = FastAPI()
@@ -29,10 +32,10 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 cred = credentials.Certificate("busconncet-firebase-adminsdk-3q883-4a49b71c98.json")  #替換為服務帳戶金鑰的實際路徑
 firebase_admin.initialize_app(cred)
-
+app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
 #設定Redis連接
-#redis_client = redis.Redis(host='redis', port=6379, db=0) #部屬用
-redis_client = redis.Redis(host='localhost', port=6379, db=0) #本地用
+redis_client = redis.Redis(host='redis', port=6379, db=0) #部屬用
+# redis_client = redis.Redis(host='localhost', port=6379, db=0) #本地用
 class NotificationRequest(BaseModel):
     token: str
     title: str
@@ -62,13 +65,6 @@ class RouteDeleteRequest(BaseModel):
 load_dotenv()
 
 
-def connect_to_db():
-    return mysql.connector.connect(
-        host=os.getenv("DB_HOST"),
-        user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASSWORD"),
-        database=os.getenv("DB_NAME")
-    )
 
 def connect_to_db():
     return mysql.connector.connect(
@@ -524,21 +520,7 @@ async def verify_token(token: str = Depends(oauth2_scheme)):
         return {"status": "success", "message": "Token is valid", "user_id": payload["sub"], "user_name":payload["name"]}
     except HTTPException as e:
         raise HTTPException(status_code=e.status_code, detail=e.detail)
-        
-def decode_jwt_token(token: str):
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-        return payload
-    except jwt.ExpiredSignatureError:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token has expired",
-        )
-    except jwt.InvalidTokenError:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid token",
-        )
+    
     
 class ConnectionManager:
     def __init__(self):
@@ -662,3 +644,60 @@ async def upload_file(file: Optional[UploadFile] = File(None), message: str = Fo
 @app.get("/health")
 async def health_check():
     return {"status": "ok"}
+
+
+
+client_id = os.getenv("GOOGLE_CLIENT_ID")
+client_secret = os.getenv("GOOGLE_CLIENT_SECRET")
+
+# 初始化 OAuth 客戶端
+oauth = OAuth()
+oauth.register(
+    name='google',
+    client_id=client_id,
+    client_secret=client_secret,
+    # redirect_uri='http://127.0.0.1:8000/auth/google/callback',
+    redirect_uri = 'https://otusyo.xyz/auth/google/callback',
+    server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
+    client_kwargs={'scope': 'openid email profile'},
+)
+
+@app.get("/auth/google")
+async def google_login(request: Request):
+    # redirect_uri = 'http://127.0.0.1:8000/auth/google/callback'
+    redirect_uri = 'https://otusyo.xyz/auth/google/callback'
+    return await oauth.google.authorize_redirect(request, redirect_uri, scope="openid email profile")
+    
+#google登入
+@app.get("/auth/google/callback")
+async def auth_callback(request: Request):
+    token = await oauth.google.authorize_access_token(request)
+    
+    if 'userinfo' not in token:
+        return {"error": "Failed to retrieve userinfo"}
+
+    user_info = token['userinfo']
+    
+    email = user_info.get('email')
+    name = user_info.get('name')
+
+    if not email or not name:
+        return {"error": "Failed to extract user information"}
+    
+    db_connection = connect_to_db()
+    cursor = db_connection.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM memberinfo WHERE email = %s", (email,))
+    user = cursor.fetchone()
+
+    if not user:
+        cursor.execute("INSERT INTO memberinfo (name, email) VALUES (%s, %s)", (name, email))
+        db_connection.commit()
+        cursor.execute("SELECT * FROM memberinfo WHERE email = %s", (email,))
+        user = cursor.fetchone()
+
+    token = create_jwt_token(user_id=user["id"], name=name, email=email)
+
+    # redirect_url = f"http://127.0.0.1:8000?access_token={token}"
+    redirect_url = f"https://otusyo.xyz?access_token={token}"
+    return RedirectResponse(url=redirect_url)
+

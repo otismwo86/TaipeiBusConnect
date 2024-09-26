@@ -47,6 +47,8 @@
                         <button type="submit" class="loginbutton">登入</button>
                     </div>
                 </form>
+                <!-- <div><a href="http://127.0.0.1:8001/auth/google">使用 Google 登入</a></div> -->
+                <div><a href="https://otusyo.xyz/auth/google">使用 Google 登入</a></div>
                 <div class="loginfooter">還沒有帳戶?<span class="logintoregister" id="logintoregister">立即註冊</span></div>
             </div>
         </div>
@@ -242,7 +244,7 @@
                         console.error('Error:', error);
                                 }
             });
-
+            //google登入
             //註冊
             document.addEventListener('DOMContentLoaded', (event) => {
                 document.getElementById('registerform').addEventListener('submit', async (registerevent) => {
@@ -383,7 +385,15 @@
                 console.error("無法加載我的最愛:", error);
             }
         }
-
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const accessToken = urlParams.get('access_token');
+            
+            if (accessToken) {
+                localStorage.setItem('access_token', accessToken);
+                window.location.href = '/';
+            }
+        });
     </script>
 </body>
 </html>
