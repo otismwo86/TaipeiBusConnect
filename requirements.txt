@@ -14,3 +14,7 @@ websockets
 wsproto
 boto3
 redis
+authlib
+starlette
+httpx
+itsdangerous 

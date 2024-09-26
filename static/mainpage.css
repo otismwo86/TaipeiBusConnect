@@ -151,7 +151,7 @@ body {
     background-color: white;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     width: 380px;
-    height: 260px;
+    height: 300px;
     border-radius: 10px;
 }
 .loginpopup-content{
@@ -185,7 +185,8 @@ body {
     width: 20px; 
     height: 20px; 
     vertical-align: middle;
-    margin-left:10px 
+    margin-left:10px ;
+    margin-right:10px 
 }
 .loginemail{
     display:flex;
@@ -228,7 +229,9 @@ body {
     justify-content: center;
 }
 .button-container {
+    display: flex;
     text-align: center;
+    margin-left:13px
 }
 .loginbutton{
     width:310px;
@@ -246,6 +249,25 @@ body {
 }
 .logintoregister:hover{
     cursor:pointer;
+}
+a[href*="auth/google"] {
+    display: inline-block;
+    width: 310px;
+    height: 47px;
+    line-height: 47px; 
+    text-align: center;
+    background-color: #db4437;
+    color: white;
+    padding: 0;  
+    border-radius: 15px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 32px;
+    margin-top: 5px;
+}
+
+a[href*="auth/google"]:hover {
+    background-color: #c23321;
 }
 .registerpopup{
     position: fixed;
