@@ -66,7 +66,7 @@ bus_estimated相關: 用於儲存公車動態資料
 ![Noti](images/noti.PNG)
 4. 在用戶每次再度進入網站時，系統會檢查該 Token 是否過期，並在必要時更新 Token，然後將新的或已驗證的 Token 與相關資訊傳送至後端伺服器。
 
-
+ 
 ## WebSocket 即時聊天室
 ![chat](images/chat.PNG)
 1. 當用戶進入聊天室頁面時，瀏覽器會發起一個 WebSocket 連接請求。
