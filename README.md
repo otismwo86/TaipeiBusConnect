@@ -21,7 +21,7 @@
 ![ARD](images/ArchitectureDiagram.png)
 1. 在本地開發階段，我們使用 **Git Flow** 開發方式，主要依據不同的 commit 來區分開發進度，確保版本控制的清晰和穩定。
 
-2. 採用前、後端分離進行開發，並採用MVC架構設計，前端使用 HTML、CSS、JavaScript，後端使用 Fastapi。
+2. 採用前、後端分離進行開發，並採用MVC架構設計，前端使用 HTML、CSS、JavaScript，後端使用 FastAPI。
 
 3. 用戶連線至伺服器時，會通過 **Nginx** 反向代理，自動升級為 **HTTPS** 連線，以確保資料傳輸的安全性。
 
