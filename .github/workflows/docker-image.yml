@@ -23,5 +23,20 @@ jobs:
 
     - name: Push the Docker image
       run: docker push ${{ secrets.DOCKER_USERNAME }}/taipeibusconnect:latest
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploy to EC2 using SSH
+      uses: appleboy/ssh-action@v0.1.4
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          docker-compose down
+          docker-compose pull
+          docker-compose up -d
 
 
