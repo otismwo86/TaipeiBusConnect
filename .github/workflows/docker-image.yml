@@ -17,7 +17,8 @@ jobs:
     - name: Set up Firebase Admin SDK JSON
       run: |
         echo "${{ secrets.FIREBASE_ADMINSDK_JSON }}" | base64 --decode > busconncet-firebase-adminsdk.json
-
+    - name: Check Firebase Admin SDK JSON
+      run: cat busconncet-firebase-adminsdk.json
 
         
     - name: Build the Docker image
