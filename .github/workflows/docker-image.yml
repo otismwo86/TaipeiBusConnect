@@ -16,7 +16,7 @@ jobs:
       
     - name: Set up Firebase Admin SDK JSON
       run: |
-        echo "${{ secrets.FIREBASE_ADMINSDK_JSON }}" | jq '.' > busconncet-firebase-adminsdk.json
+        echo "${{ secrets.FIREBASE_ADMINSDK_JSON }}" > busconncet-firebase-adminsdk.json
         
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/taipeibusconnect:latest
