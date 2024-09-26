@@ -1,0 +1,28 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Log in to Docker Hub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      
+    - name: Set up Firebase Admin SDK JSON
+      run: |
+        echo "${{ secrets.FIREBASE_ADMINSDK_JSON }}" > busconncet-firebase-adminsdk-3q883-4a49b71c98.json
+        
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/taipeibusconnect:latest
+
+
+
+    - name: Push the Docker image
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/taipeibusconnect:latest
+
