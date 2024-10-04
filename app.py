@@ -108,15 +108,15 @@ def get_current_table():
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
-    return templates.TemplateResponse("mainpage.html", {"request": request})
+    return templates.TemplateResponse(request,"mainpage.html", {"request": request})
 
 @app.get("/bus", response_class=HTMLResponse)
 async def bus_details(request: Request, route_name: str):
-    return templates.TemplateResponse("busdetails.html", {"request": request, "route_name": route_name})
+    return templates.TemplateResponse(request,"busdetails.html", {"request": request, "route_name": route_name})
 
 @app.get("/home", response_class=HTMLResponse)
 async def read_home(request: Request):
-    return templates.TemplateResponse("testnoti.html", {"request": request})
+    return templates.TemplateResponse(request,"testnoti.html", {"request": request})
 
 @app.get("/member", response_class=HTMLResponse)
 async def read_home(request: Request):
@@ -303,6 +303,7 @@ async def add_favorite_route(request: FavoriteRoute):
     finally:
         cursor.close()
         db_connection.close()
+        
 @app.get("/api/favorites/{member_id}")
 async def get_favorites(member_id: int):
     try:
