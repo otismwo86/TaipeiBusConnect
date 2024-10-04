@@ -78,8 +78,8 @@
 
         const urlParams = new URLSearchParams(window.location.search);
         const routeName = urlParams.get('route_name');
-        const ws = new WebSocket(`ws://localhost:8000/ws/chat?token=${token}&route_name=${routeName}`); //本地用
-        //const ws = new WebSocket(`wss://otusyo.xyz/ws/chat?token=${token}&route_name=${routeName}`); //部屬用
+        // const ws = new WebSocket(`ws://localhost:8000/ws/chat?token=${token}&route_name=${routeName}`); //本地用
+        const ws = new WebSocket(`wss://otusyo.xyz/ws/chat?token=${token}&route_name=${routeName}`); //部屬用
 
         ws.onmessage = function(event) {
             const messages = document.getElementById('chat-box');
