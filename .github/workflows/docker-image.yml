@@ -1,0 +1,46 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Log in to Docker Hub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      
+    - name: Set up Firebase Admin SDK JSON
+      run: |
+        mkdir -p app  
+        echo "${{ secrets.FIREBASE_ADMINSDK_JSON }}" | base64 --decode > ./app/busconncet-firebase-adminsdk.json
+    - name: Check Firebase Admin SDK JSON
+      run: cat ./app/busconncet-firebase-adminsdk.json
+
+        
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/taipeibusconnect:latest
+
+    - name: Push the Docker image
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/taipeibusconnect:latest
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploy to EC2 using SSH
+      uses: appleboy/ssh-action@v0.1.4
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          sudo docker-compose down
+          sudo docker-compose pull
+          sudo docker-compose up -d
+
+
