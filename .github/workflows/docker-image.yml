@@ -21,7 +21,11 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-
+      
+    - name: Set up Firebase Admin SDK JSON
+      run: |
+        mkdir -p app  
+        echo "${{ secrets.FIREBASE_ADMINSDK_JSON }}" | base64 --decode > ./busconncet-firebase-adminsdk-3q883-4a49b71c98.json
     
     - name: Run tests
       run: pytest --maxfail=3 --disable-warnings
@@ -29,12 +33,6 @@ jobs:
     - name: Log in to Docker Hub
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
       
-    - name: Set up Firebase Admin SDK JSON
-      run: |
-        mkdir -p app  
-        echo "${{ secrets.FIREBASE_ADMINSDK_JSON }}" | base64 --decode > ./app/busconncet-firebase-adminsdk.json
-    - name: Check Firebase Admin SDK JSON
-      run: cat ./app/busconncet-firebase-adminsdk.json
 
         
     - name: Build the Docker image
