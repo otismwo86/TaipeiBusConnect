@@ -29,7 +29,7 @@ def test_search_bus():
 
         mock_cursor.fetchall.return_value = expected_results
 
-        response = client.get(f"/api/searchlocation?route_name={route_name}")
+        response = client.get(f"/api/locations?route_name={route_name}")
 
         assert response.status_code == 200
 
