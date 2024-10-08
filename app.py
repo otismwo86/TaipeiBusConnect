@@ -123,7 +123,7 @@ async def read_home(request: Request):
     return templates.TemplateResponse("memberpage.html", {"request": request})
 
 
-@app.get("/api/search_routename")
+@app.get("/api/routes")
 async def search_routename():
     cached_routes = redis_client.get('routes')
     if cached_routes:
@@ -145,8 +145,8 @@ async def search_routename():
 
     print("從資料庫中查詢數據並存入 Redis 快取")
     return results
-    
-@app.get("/api/search/{route_name}")
+# 搜尋路線詳細資訊    
+@app.get("/api/routes/{route_name}")
 async def search_bus(route_name: str):
     db_connection = connect_to_db()
     cursor = db_connection.cursor(dictionary=True)
@@ -169,7 +169,7 @@ async def search_bus(route_name: str):
         db_connection.close()
         raise HTTPException(status_code=404, detail="Route not found")
 
-@app.get("/api/search_estimate")
+@app.get("/api/estimates")
 async def search_estimate(route_name: str):
     db_connection = None
     try:
@@ -195,7 +195,7 @@ async def search_estimate(route_name: str):
             cursor.close()
             db_connection.close()
 
-@app.get("/api/searchlocation")
+@app.get("/api/locations")
 async def search_bus(route_name: str):
     db_connection = connect_to_db()
     cursor = db_connection.cursor(dictionary=True)
@@ -210,8 +210,8 @@ async def search_bus(route_name: str):
     cursor.close()
     db_connection.close()
     return JSONResponse(content=results)
-
-@app.post("/api/subscribe")
+#訂閱noti
+@app.post("/api/subscriptions")
 async def subcribe(request: SubscribeRequest):
     try:
         db_connection = connect_to_db()
@@ -240,7 +240,7 @@ async def subcribe(request: SubscribeRequest):
         cursor.close()
         db_connection.close()
 
-@app.post("/api/update-token")
+@app.put("/api/tokens")
 async def update_token(request: TokenUpdateRequest):
     db_connection = connect_to_db()
     cursor = db_connection.cursor()
@@ -273,7 +273,7 @@ async def update_token(request: TokenUpdateRequest):
         cursor.close()
         db_connection.close()
 #我的最愛
-@app.post('/api/favorite')
+@app.post('/api/favorites')
 async def add_favorite_route(request: FavoriteRoute):
     try:
         db_connection = connect_to_db()
@@ -323,6 +323,7 @@ async def get_favorites(member_id: int):
     finally:
         cursor.close()
         db_connection.close()
+        
 @app.delete("/api/favorites/{member_id}")
 async def delete_fav(member_id: int, request: RouteDeleteRequest):
     try:
@@ -341,7 +342,7 @@ async def delete_fav(member_id: int, request: RouteDeleteRequest):
         cursor.close()
         db_connection.close()
     
-@app.post("/send-notification/")
+@app.post("/api/notifications")
 async def send_notification(request: NotificationRequest):
     #建立通知消息
     message = messaging.Message(
@@ -388,7 +389,7 @@ async def get_subscriptions(member_id: int):
         db_connection.close()
         
 #獲取route訂閱
-@app.get("/api/check_subscription")
+@app.get("/api/subscriptionscheck")
 async def check_subscription(member_id: int, route_name: str):
     try:
         db_connection = connect_to_db()
@@ -522,7 +523,7 @@ async def verify_token(token: str = Depends(oauth2_scheme)):
     except HTTPException as e:
         raise HTTPException(status_code=e.status_code, detail=e.detail)
     
-    
+# 初始化 ConnectionManager 類別的實例
 class ConnectionManager:
     def __init__(self):
         self.active_connections: Dict[str, List[WebSocket]] = {}
@@ -587,7 +588,7 @@ class ConnectionManager:
 
     
 
-manager = ConnectionManager()
+manager = ConnectionManager() 
 
 @app.get("/buschatroom", response_class=HTMLResponse)
 async def read_index(request: Request, route_name: str):
@@ -628,7 +629,7 @@ s3_client = boto3.client(
     aws_secret_access_key=AWS_SECRET_KEY
 )
 #上傳圖片
-@app.post("/upload")
+@app.post("/api/files")
 async def upload_file(file: Optional[UploadFile] = File(None), message: str = Form(...), route_name: str = Form(...), user_name: str = Form(...) ):
     try:
         image_url = None

@@ -68,7 +68,7 @@ export function sendNotification(nearestStopName, nearestStopTime) {
     const title = `${routeName1}到站時間`;
     const body = `最近站牌為: ${nearestStopName}，到點時間: ${nearestStopTime}`;
 
-    fetch('/send-notification/', {
+    fetch('/api/notifications', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
